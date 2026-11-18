@@ -1,0 +1,214 @@
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+.no-visible-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .no-visible-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .height-20{
+    height: 4rem;
+  }
+
+  .responsive-image {
+    max-height: 250px; /* Set your desired max height */
+    width: auto; /* Allow width to adjust automatically */
+  }
+
+p {
+    line-height: 1.6rem;
+    font-size: 16px; /* Default for desktop */
+}
+
+
+
+/* Large Screens (Desktops) */
+h1 {
+    font-size: 40px ;
+    line-height: 1.4 ;
+}
+
+h2 {
+    font-size: 30px ;
+    line-height: 1.2 ;
+}
+h3{
+    font-size: 24px ;
+    line-height:1.2 ;
+}
+h4{
+font-size: 18px ;
+line-height: 1.2 ;
+}
+h5{
+    font-size: 16px ;
+    line-height: 1.2 ;
+}
+h6{
+    font-size: 14px ;
+    line-height: 1.2 ;
+}
+
+
+.button-all {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  /* clamp(min, preferred, max) — replaces 4 identical responsive overrides */
+  padding: clamp(12px, 1.5vw, 14px);
+  font-size: clamp(14px, 1.2vw, 16px);
+  font-weight: 600;
+  line-height: 1.4;
+  background: #173366;
+  color: #fff;
+  border-radius: 14px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.button-all:hover {
+  background: #FFC65C;
+  color: #000;
+}
+
+
+
+ .button-all-footer{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
+    
+    border: 2px solid #173366 ;
+    color: #000;
+    border-radius: 14px;
+    
+}
+
+.button-all-footer:hover{
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
+    background-color: #FFC65C;
+    border: 2px solid #FFC65C ;
+    color: #000000;
+    border-radius: 14px;
+} 
+
+.display-block{
+    display: block!important;
+}
+
+
+
+
+/* Medium Screens (Tablets) */
+@media screen and (max-width: 1024px) {
+
+    p {
+        line-height: 1.6rem;
+        font-size: 16px;
+    }
+
+    h1 { font-size: 40px; line-height: 1.4; }
+    h2 { font-size: 30px; line-height: 1.2; }
+    h3 { font-size: 24px; line-height: 1.2; }
+    h4 { font-size: 18px; line-height: 1.2; }
+    h5 { font-size: 16px; line-height: 1.2; }
+    h6 { font-size: 14px; line-height: 1.2; }
+    /* .button-all sizing handled by clamp() — no override needed */
+}
+
+
+/* Small Screens (Mobile) */
+@media screen and (max-width: 768px) {
+    h1 { font-size: 32px; line-height: 1.2; }
+    h2 { font-size: 24px; line-height: 1.2; }
+    h3 { font-size: 20px; line-height: 1.2; }
+    h4 { font-size: 18px; line-height: 1.2; }
+    h5 { font-size: 16px; line-height: 1.2; }
+    h6 { font-size: 14px; line-height: 1.2; }
+    /* .button-all sizing handled by clamp() */
+}
+
+/* Extra Small Screens (Mobile < 480px) */
+@media screen and (max-width: 480px) {
+    h1 { font-size: 32px; line-height: 1.2; }
+    h2 { font-size: 26px; line-height: 1.4; }
+    h3 { font-size: 24px; line-height: 1.4; }
+    h4 { font-size: 20px; line-height: 1.2; }
+    h5 { font-size: 18px; line-height: 1.2; }
+    h6 { font-size: 16px; line-height: 1.2; }
+    /* .button-all sizing handled by clamp() */
+    .mobile-reverse { flex-direction: column-reverse !important; }
+    .sm-block        { display: block !important; }
+    .sm-hidden       { display: none !important; }
+    .sm-width-0      { width: 100% !important; }
+    .sm-mt-14        { margin-top: 3rem; }
+    .sm-mt-12        { margin-top: 2rem; }
+}
+.dsk-width-full{
+    width: 100%;
+}
+
+
+.react-datepicker-wrapper {
+    display: inline-block;
+    padding: 0;
+    border: 0;
+    width: 100%;
+}
+
+/* ==========================================================================
+   Branch Pages Layout Fix (Review Cards & Form Overlap)
+   ========================================================================== */
+
+/* 1. Add bottom padding to the branch hero container on mobile to prevent reviews from covering the form bottom */
+div.relative.w-full:has(.branch-form-container) {
+  padding-bottom: 120px !important;
+}
+
+/* 2. Position the reviews container absolutely relative to the hero section */
+div.relative.w-full:has(.branch-form-container) > div.absolute:has(.branch-reviews-wrapper) {
+  bottom: -320px !important;
+}
+
+/* 3. Shift the content section below the hero down to clear the absolute reviews container */
+div.relative.w-full:has(.branch-form-container) + div.container {
+  margin-top: 352px !important; /* 320px reviews hang + 32px breathing room */
+}
+
+/* Desktop layout overrides */
+@media (min-width: 1024px) {
+  div.relative.w-full:has(.branch-form-container) {
+    padding-bottom: 160px !important;
+  }
+  
+  div.relative.w-full:has(.branch-form-container) > div.absolute:has(.branch-reviews-wrapper) {
+    bottom: -256px !important; /* -bottom-64 */
+  }
+  
+  div.relative.w-full:has(.branch-form-container) + div.container {
+    margin-top: 288px !important; /* 256px reviews hang + 32px breathing room */
+  }
+}
+
+
+
+  
+  
+ 
