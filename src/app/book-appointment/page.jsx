@@ -1,15 +1,13 @@
+import BookAppointment from "@/pages/bookappointment";
 
-import BookAppointment from '@/pages/bookappointment'
-import React from 'react'
-import Head from 'next/head';
+export const metadata = {
+  alternates: {
+    languages: {
+      "en-in": "https://sudhafertilitycentre.com/book-appointment",
+    },
+  },
+};
 
-function Page() {
-  <Head>
-    <link rel="alternate" href="https://sudhafertilitycentre.com/book-appointment" hreflang="en-in" />
-  </Head>
-  return (
-    <BookAppointment />
-  )
+export default function Page() {
+  return <BookAppointment />;
 }
-
-export default Page

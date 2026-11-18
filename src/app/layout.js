@@ -4,6 +4,7 @@ import { Outfit, Inter, Noto_Sans_Kannada } from "next/font/google";
 import Header from "@/components/Header/header";
 import Footer from "@/components/footer/footer";
 import ClientLayout from "@/components/Header/ClientLayout";
+import HideOnAppointment from "@/components/Header/HideOnAppointment";
 import { NotFoundProvider } from "@/context/NotFoundContext";
 import Script from "next/script";
 import { DeferredFBPixel } from "@/components/DeferredFBPixel";
@@ -132,11 +133,15 @@ export default function RootLayout({ children }) {
         </noscript>
 
         <NotFoundProvider>
-          <Header />
+          <HideOnAppointment>
+            <Header />
+          </HideOnAppointment>
           <main>
             <ClientLayout>{children}</ClientLayout>
           </main>
-          <Footer />
+          <HideOnAppointment>
+            <Footer />
+          </HideOnAppointment>
         </NotFoundProvider>
         <DeferredFBPixel />
 
