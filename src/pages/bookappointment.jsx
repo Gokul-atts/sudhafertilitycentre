@@ -8,14 +8,21 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { FaWhatsapp, FaYoutube } from "react-icons/fa6";
 import { useForm } from "react-hook-form";
-import family from "@/assets/Home/tab3.webp";
-import consultation from "@/assets/Home/tab1.webp";
-import parents from "@/assets/Home/tab4.webp";
-import sudhaBuilding from "@/assets/branch/erode/erode.webp";
+import bannerOne from "@/assets/book-appointment/banner-one.webp";
+import bannerTwo from "@/assets/book-appointment/banner-two.webp";
+import bannerThree from "@/assets/book-appointment/banner-three.webp";
+import sudhaBuilding from "@/assets/book-appointment/hospitals.webp";
+import wOne from "@/assets/book-appointment/w-1.svg";
+import wTwo from "@/assets/book-appointment/w-2.svg";
+import wThree from "@/assets/book-appointment/w-3.svg";
+import wFour from "@/assets/book-appointment/w-4.svg";
+import wFive from "@/assets/book-appointment/w-5.svg";
+
+
+
 import emergingIvfAward from "@/assets/About/award1.webp";
 import tamilNaduIvfAward from "@/assets/About/award2.webp";
 import logo from "@/assets/logo-dark.svg";
-import { fetchBranchList } from "@/lib/api/branches";
 import FertilitySolutions from "@/components/booking/FertilitySolutions";
 import DoctorSlider from "@/components/booking/DoctorSlider";
 import PatientReviews from "@/components/booking/PatientReviews";
@@ -33,71 +40,144 @@ const bannerEase = [0.22, 1, 0.36, 1];
 
 const slides = [
   {
-    image: family,
-    label: "Fertility Experts in Coimbatore",
-    title: "High Success Rates Meet",
-    highlight: "Ethical Fertility Care in Coimbatore.",
-    description: "Start your parenthood journey with a fertility team that listens and helps you understand your options.",
+    image: bannerOne,
+    label: "40+ Years of Expertise | 50+ Branches",
+    title: "Your Dream of Parenthood",
+    highlight: "Starts Here",
+    description: "Caring doctors, gentle treatment and a team that stands by you at every step.",
   },
   {
-    image: consultation,
-    label: "Personalised Fertility Care",
-    title: "Get Answers From",
-    highlight: "a Fertility Specialist.",
-    description: "Talk about your concerns, learn which tests may help, and discuss treatment options for your needs.",
+    image: bannerTwo,
+    label: " 4 Lakh+ Couples Counselled | 1 Lakh+ Happy Families",
+    title: "You Are Not Alone",
+    highlight: "on This Journey",
+    description: "Every worry, every question, every hope. Bring them all to us, and we will guide you with care.",
   },
   {
-    image: parents,
-    label: "Support for Your Parenthood Journey",
-    title: "Take Your First Step",
-    highlight: "Towards Parenthood.",
-    description: "Book a free consultation and find out what your next step could look like.",
+    image: bannerThree,
+    label: "60,000+ IVF Babies | 35,000+ IUI Babies",
+    title: "Every Family Deserves ",
+    highlight: "Its Little Joy",
+    description: "Come with your hopes and your questions. We will bring the care, the experience and the patience.",
   },
 ];
 
-function AppointmentForm() {
+const achievements = [
+  { figure: "50+", label: "Branches in India" },
+  { figure: "40+", label: "Years of Experience" },
+  { figure: "4 Lakh+", label: "Couples Counselled" },
+  { figure: "1 Lakh+", label: "Happy Families" },
+];
+
+const bookingAwards = [
+  { title: "No. 1 Emerging IVF Hospital in India", image: emergingIvfAward },
+  { title: "No. 1 IVF Hospital in Tamil Nadu", image: tamilNaduIvfAward },
+];
+
+const contactActionClass =
+  "flex min-h-12 items-center justify-center gap-2 px-3 py-2.5 text-center text-sm font-medium leading-tight hover:bg-white/15 focus-visible:outline-white focus-visible:outline-offset-[-3px] md:flex-col md:gap-1.5 md:text-xs";
+
+const revealGroup = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.10 } },
+};
+
+const revealItem = {
+  hidden: { opacity: 0, y: 22 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.54, ease: bannerEase } },
+};
+
+const revealViewport = { once: true, amount: 0.15 };
+const revealClass = "motion-reduce:!opacity-100 motion-reduce:!transform-none";
+
+const fertilityBenefits = [
+  { label: "Experienced Fertility Specialists", icon: wOne },
+  { label: "Advanced Embryology Lab", icon: wTwo },
+  { label: "Transparent Treatment Pricing", icon: wThree },
+  { label: "Affordable Care Within Reach", icon: wFour },
+  { label: "Counselling That Heals the Heart", icon: wFive },
+  // { label: "Trusted Across South India", icon: Compass },
+  // { label: "Support Beyond Treatment", icon: Compass },
+];
+
+const cellDrift = {
+  rest: { x: 0, y: 0, scale: 1 },
+  float: {
+    x: [0, 12, 4, 0],
+    y: [0, -8, 5, 0],
+    scale: [1, 1.06, 1.02, 1],
+    transition: { duration: 4.4, ease: "easeInOut" },
+  },
+};
+
+const cellPair = {
+  rest: { x: 0, y: 0, scale: 1 },
+  float: (direction) => ({
+    x: [0, direction * 16, direction * 9, 0],
+    y: [0, direction * 7, direction * 12, 0],
+    scale: [1, 0.96, 1.05, 1],
+    transition: { duration: 4.6, ease: "easeInOut" },
+  }),
+};
+
+export default function BookAppointment() {
+  useSmoothWheel();
+  const reduceMotion = useReducedMotion();
+
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+
+  const detailsRef = useRef(null);
+  const [showActions, setShowActions] = useState(false);
+
   const router = useRouter();
-  const [branches, setBranches] = useState(null);
-  const [branchRequest, setBranchRequest] = useState(0);
   const [submissionError, setSubmissionError] = useState("");
   const {
     register,
     handleSubmit,
     setError,
     formState: { errors, isSubmitting },
-  } = useForm({ defaultValues: { branch: "" } });
+  } = useForm({ defaultValues: { location: "" } });
 
   useEffect(() => {
-    let active = true;
-    fetchBranchList().then((list) => {
-      if (active) setBranches(list);
-    });
-    return () => { active = false; };
-  }, [branchRequest]);
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPlaying(!reducedMotion.matches);
+    const handleMotionChange = (event) => setPlaying(!event.matches);
+    reducedMotion.addEventListener("change", handleMotionChange);
+    return () => reducedMotion.removeEventListener("change", handleMotionChange);
+  }, []);
 
-  async function submitAppointment({ name, mobile, branch }) {
+  useEffect(() => {
+    if (!playing || hovered || focused) return;
+    const timer = window.setTimeout(() => {
+      setActiveSlide((index) => (index + 1) % slides.length);
+    }, 6500);
+    return () => window.clearTimeout(timer);
+  }, [activeSlide, focused, hovered, playing]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowActions(entry.isIntersecting),
+      { rootMargin: "0px 0px -20% 0px" },
+    );
+    observer.observe(detailsRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const submitAppointment = async ({ name, mobile, location }) => {
     setSubmissionError("");
-    const selectedBranch = branches?.find(({ id }) => String(id) === branch);
-    if (!selectedBranch) {
-      setError("branch", { message: "Select a location." }, { shouldFocus: true });
-      return;
-    }
 
     try {
-      const response = await fetch("/api/saveData", {
+      const response = await fetch("/api/booking-appointment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          mobile,
-          branch: selectedBranch.id,
-          location: selectedBranch.branch_name,
-          formType: "landing page",
-        }),
+        body: JSON.stringify({ name, mobile, location }),
       });
       const result = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        for (const field of ["name", "mobile", "branch"]) {
+      if (!response.ok || result.success !== true) {
+        for (const field of ["name", "mobile", "location"]) {
           if (result.errors?.[field]) {
             setError(field, { type: "server", message: result.errors[field] });
           }
@@ -109,9 +189,21 @@ function AppointmentForm() {
     } catch {
       setSubmissionError("Check your connection and try again.");
     }
-  }
+  };
 
-  return (
+  const copyVariants = {
+    active: {
+      visibility: "visible",
+      transition: reduceMotion ? { duration: 0 } : { duration: 0, delayChildren: 0.15, staggerChildren: 0.09 },
+    },
+    inactive: { visibility: "hidden", transition: { duration: 0, when: "afterChildren" } },
+  };
+  const textVariants = {
+    active: { opacity: 1, y: 0, transition: { duration: reduceMotion ? 0 : 0.62, ease: bannerEase } },
+    inactive: { opacity: 0, y: reduceMotion ? 0 : 14, transition: { duration: reduceMotion ? 0 : 0.16 } },
+  };
+
+  const appointmentForm = (
     <section className="relative z-10 min-w-0 scroll-mt-5 rounded-[clamp(17px,1.8vw,28px)] border border-[#e2e7f0] bg-white p-5 shadow-[0_14px_40px_#12275f24] min-[701px]:border-0 min-[701px]:p-[clamp(17px,1.75vw,30px)]" id="contact-now" aria-labelledby="appointment-title" tabIndex={-1}>
       <h2 id="appointment-title" className="m-0 text-[clamp(1.25rem,5.4vw,1.7rem)] font-bold leading-[1.18] tracking-tight min-[701px]:text-[clamp(1.18rem,1.85vw,1.8rem)]">
         Book Your <span className="text-[#1b347c]">Free Appointment</span>
@@ -158,99 +250,34 @@ function AppointmentForm() {
 
         <div className="grid min-w-0 gap-1 text-[clamp(.78rem,1vw,.96rem)] font-medium">
           <label htmlFor="appointment-location">Location</label>
-          <select
+          <input
             className={fieldClass}
             id="appointment-location"
+            type="text"
+            placeholder="Enter your city or area"
+            autoComplete="address-level2"
             required
-            disabled={!branches?.length}
-            aria-invalid={Boolean(errors.branch)}
-            aria-describedby={errors.branch ? "appointment-location-error" : undefined}
-            {...register("branch", { required: "Select a location." })}
-          >
-            <option value="">{branches ? "Select your nearest centre" : "Loading locations…"}</option>
-            {branches?.map(({ id, branch_name: name }) => <option key={id} value={id}>{name}</option>)}
-          </select>
-          {errors.branch && <p id="appointment-location-error" className={errorClass}>{errors.branch.message}</p>}
-          {branches?.length === 0 && (
-            <p className={errorClass} role="status">
-              Locations could not load.{" "}
-              <button type="button" className="font-semibold underline" onClick={() => {
-                setBranches(null);
-                setBranchRequest((attempt) => attempt + 1);
-              }}>Try again</button>
-            </p>
-          )}
+            maxLength={100}
+            aria-invalid={Boolean(errors.location)}
+            aria-describedby={errors.location ? "appointment-location-error" : undefined}
+            {...register("location", {
+              validate: (value) => value.trim().length >= 2 || "Enter your city or area.",
+            })}
+          />
+          {errors.location && <p id="appointment-location-error" className={errorClass}>{errors.location.message}</p>}
         </div>
 
         <p className="m-0 text-[clamp(.75rem,.98vw,.92rem)] leading-[1.45] text-[#515b70]">Our fertility team will call you on this number.</p>
         {submissionError && <p className={errorClass} role="alert">{submissionError}</p>}
-        <button className={actionClass + " min-h-11 w-full px-[13px] py-[9px] text-[clamp(.76rem,1.02vw,.98rem)] disabled:cursor-not-allowed disabled:opacity-65 disabled:hover:bg-[#1b347c]"} type="submit" disabled={isSubmitting || !branches?.length}>
+        <button className={actionClass + " min-h-11 w-full px-[13px] py-[9px] text-[clamp(.76rem,1.02vw,.98rem)] disabled:cursor-not-allowed disabled:opacity-65 disabled:hover:bg-[#1b347c]"} type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Submitting…" : "Take Your Free Step Toward Parenthood"}
           <ArrowRight className="shrink-0" size={17} aria-hidden="true" />
         </button>
       </form>
     </section>
   );
-}
 
-const achievements = [
-  { figure: "3.5L+", label: "Infertile Couples Counselled" },
-  { figure: "1L+", label: "Laparoscopic Surgeries" },
-  { figure: "35k+", label: "IUI Babies" },
-  { figure: "60k+", label: "IVF Babies" },
-];
-
-const bookingAwards = [
-  { title: "No. 1 Emerging IVF Hospital in India", image: emergingIvfAward },
-  { title: "No. 1 IVF Hospital in Tamil Nadu", image: tamilNaduIvfAward },
-];
-
-const contactActionClass =
-  "flex min-h-12 items-center justify-center gap-2 px-3 py-2.5 text-center text-sm font-medium leading-tight hover:bg-white/15 focus-visible:outline-white focus-visible:outline-offset-[-3px] md:flex-col md:gap-1.5 md:text-xs";
-
-const revealGroup = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.10 } },
-};
-
-const revealItem = {
-  hidden: { opacity: 0, y: 22 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.54, ease: bannerEase } },
-};
-
-const revealViewport = { once: true, amount: 0.15 };
-const revealClass = "motion-reduce:!opacity-100 motion-reduce:!transform-none";
-
-const fertilityBenefits = [
-  { label: "Personalized Fertility Care", icon: HeartPulse },
-  { label: "Advanced Medical Technology", icon: Microscope },
-  { label: "Transparent Treatment Pricing", icon: ReceiptIndianRupee },
-  { label: "Compassionate Patient Care", icon: HandHeart },
-  { label: "Complete Fertility Guidance", icon: Compass },
-];
-
-const cellDrift = {
-  rest: { x: 0, y: 0, scale: 1 },
-  float: {
-    x: [0, 12, 4, 0],
-    y: [0, -8, 5, 0],
-    scale: [1, 1.06, 1.02, 1],
-    transition: { duration: 4.4, ease: "easeInOut" },
-  },
-};
-
-const cellPair = {
-  rest: { x: 0, y: 0, scale: 1 },
-  float: (direction) => ({
-    x: [0, direction * 16, direction * 9, 0],
-    y: [0, direction * 7, direction * 12, 0],
-    scale: [1, 0.96, 1.05, 1],
-    transition: { duration: 4.6, ease: "easeInOut" },
-  }),
-};
-
-function CellShape() {
-  return (
+  const cellShape = (
     <div className="relative grid size-full place-items-center rounded-[46%_54%_53%_47%/52%_45%_55%_48%] border border-[#a5bcef]/75 bg-[radial-gradient(circle_at_32%_30%,#ffffffbb,#ccdcff88_45%,#a4bcee55_74%,#dce7ffb3)] shadow-[inset_0_0_16px_#9db7ef45]">
       <div className="absolute inset-[9%] rounded-[inherit] border border-white/75" />
       <div className="relative size-[34%] rounded-[45%_55%_48%_52%] border border-[#a8bdf0] bg-[radial-gradient(circle_at_32%_32%,#f3f8ff,#afc3f3)] shadow-[0_0_15px_#9fb8f063]" />
@@ -259,10 +286,8 @@ function CellShape() {
       <span className="absolute left-[28%] top-[64%] size-[4%] rounded-full bg-[#91a9ec]/55" />
     </div>
   );
-}
 
-function FertilityBackdrop({ reduceMotion }) {
-  return (
+  const fertilityBackdrop = (
     <motion.div
       className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[inherit]"
       aria-hidden="true"
@@ -277,38 +302,36 @@ function FertilityBackdrop({ reduceMotion }) {
         variants={cellDrift}
         data-cell-motion="drift"
       >
-        <CellShape />
+        {cellShape}
       </motion.div>
 
       <div className="absolute -right-7 top-5 size-32 opacity-50 sm:right-[1%] sm:top-2 sm:size-44 lg:right-[5%] lg:size-52">
         <motion.div className="absolute left-[8%] top-[14%] size-[60%] motion-reduce:!transform-none" variants={cellPair} custom={-1}>
-          <CellShape />
+          {cellShape}
         </motion.div>
         <motion.div className="absolute left-[42%] top-[34%] size-[49%] motion-reduce:!transform-none" variants={cellPair} custom={1}>
-          <CellShape />
+          {cellShape}
         </motion.div>
       </div>
     </motion.div>
   );
-}
 
-function WhyChooseUs({ reduceMotion }) {
-  return (
+  const whyChooseUs = (
     <section
       aria-labelledby="why-choose-us"
       className="relative isolate mt-8 rounded-2xl bg-[#f7f8fc] px-3 py-8 text-center sm:px-6 md:mt-14 md:rounded-3xl md:py-12 lg:px-8"
     >
-      <FertilityBackdrop reduceMotion={reduceMotion} />
+      {fertilityBackdrop}
 
       <h2 id="why-choose-us" className="text-[clamp(1.55rem,3vw,2.3rem)] font-semibold leading-tight tracking-tight text-[#181d29]">
         Why Choose Us?
       </h2>
       <p className="mx-auto mt-3 max-w-[62ch] font-[family-name:var(--font-inter)] text-[clamp(.9rem,1.25vw,1rem)] leading-relaxed text-[#5c6270]">
-        Experience compassionate fertility care with advanced treatments and expert guidance at every step of your parenthood journey.
+        Because the right fertility centre gives you more than treatment. It gives you hope, honesty and a hand to hold.
       </p>
 
       <ul className="mt-6 grid grid-cols-2 gap-3 md:mt-8 md:grid-cols-5 lg:gap-4">
-        {fertilityBenefits.map(({ label, icon: Icon }, index) => (
+        {fertilityBenefits.map(({ label, icon }, index) => (
           <motion.li
             key={label}
             initial={reduceMotion ? false : { opacity: 0.55, y: 16 }}
@@ -325,9 +348,10 @@ function WhyChooseUs({ reduceMotion }) {
               viewport={{ once: true, amount: 0.5 }}
               transition={{ type: "spring", stiffness: 230, damping: 16, delay: index * 0.07 }}
             >
-              <Icon
+              <Image
+                src={icon}
+                alt=""
                 className="h-5 w-5 motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:rotate-[-8deg]"
-                strokeWidth={1.7}
               />
             </motion.span>
             <p className="max-w-[15ch] text-balance text-sm font-semibold leading-snug text-[#17213b] lg:text-base">{label}</p>
@@ -336,11 +360,10 @@ function WhyChooseUs({ reduceMotion }) {
       </ul>
     </section>
   );
-}
 
-function BookingBanner({ titleId, reduceMotion }) {
-  return (
+  const [bookingBanner, footerBookingBanner] = ["booking-banner-title", "booking-footer-banner-title"].map((titleId) => (
     <motion.section
+      key={titleId}
       aria-labelledby={titleId}
       className={revealClass + " mx-auto mt-5 flex w-[94%] max-w-[1320px] flex-col items-center justify-between gap-3.5 relative isolate overflow-hidden rounded-2xl bg-gradient-to-b from-[#3c61cd] to-[#182e75] px-4 py-5 text-center text-white sm:flex-row sm:gap-6 sm:px-7 sm:text-left md:mt-7 md:px-9 md:py-6"}
       variants={revealItem}
@@ -357,7 +380,7 @@ function BookingBanner({ titleId, reduceMotion }) {
         viewport={{ amount: 0.3 }}
       />
       <h2 id={titleId} className="max-w-[36ch] text-balance text-[clamp(1.12rem,2.1vw,1.75rem)] font-semibold leading-tight tracking-tight">
-        Bring your little one home and start the adventure of parenthood
+        Your Little One Is Worth Every Hope. Let Us Help You Bring Them Home.
       </h2>
       <a
         href="#contact-now"
@@ -367,24 +390,9 @@ function BookingBanner({ titleId, reduceMotion }) {
         <ArrowRight size={16} aria-hidden="true" className="shrink-0 motion-safe:transition-transform motion-safe:group-hover:translate-x-0.5" />
       </a>
     </motion.section>
-  );
-}
+  ));
 
-function BookingDetails() {
-  const reduceMotion = useReducedMotion();
-  const detailsRef = useRef(null);
-  const [showActions, setShowActions] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => setShowActions(entry.isIntersecting),
-      { rootMargin: "0px 0px -20% 0px" },
-    );
-    observer.observe(detailsRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
+  const bookingDetails = (
     <div ref={detailsRef} className="pb-[calc(4.5rem+env(safe-area-inset-bottom))] md:pb-0">
       <div className="mx-auto w-[95%] max-w-[1520px] px-1 pt-9 sm:pt-12 lg:pt-16">
         <motion.section
@@ -425,10 +433,16 @@ function BookingDetails() {
               About Sudha Fertility Centre
             </h2>
             <p className="mb-3 mt-2 text-[clamp(1rem,1.7vw,1.3rem)] font-medium leading-snug text-black md:mb-4">
-              Four Decades of Compassionate Care in Parenthood
+              From One Wish in Erode to Families Across South India
             </p>
             <p className="text-[clamp(.93rem,1.25vw,1.06rem)] leading-[1.75] text-[#5c6270]">
-              Sudha Fertility Centre opened in Erode in 1995 to help couples experiencing infertility. Today, our network of more than 40 branches across South India, Bangladesh and Sri Lanka brings fertility care closer to families in cities and rural communities. Our team guides you through your options and supports you at each stage of your parenthood journey.
+              Sudha Fertility Centre began in Erode in 1995 with one simple wish: no childless couple should lose hope of becoming parents. That wish still guides everything we do today.
+            </p>
+            <p className="text-[clamp(.93rem,1.25vw,1.06rem)] leading-[1.75] text-[#5c6270]">
+              Today, we care for families through 40+ branches across South India, Bangladesh and Sri Lanka. Whether you live in a big city or a small town, you receive the same honest advice, the same advanced treatment and the same warm care.
+            </p>
+            <p className="text-[clamp(.93rem,1.25vw,1.06rem)] leading-[1.75] text-[#5c6270]">
+              We know this journey can feel heavy. So we take it one gentle step at a time and plan treatment that fits you. Let us walk with you to the day you hold your little one.
             </p>
             <Link href="/about-us" className={actionClass + " mt-5 min-h-11 px-5 text-sm"}>
               Know More <ArrowRight size={16} aria-hidden="true" />
@@ -439,13 +453,13 @@ function BookingDetails() {
             <Image
               src={sudhaBuilding}
               alt="Exterior of Sudha Fertility Centre"
-              className="aspect-[6/5] w-full object-cover motion-safe:transition-transform motion-safe:duration-700 motion-safe:group-hover:scale-[1.025]"
+              className="aspect-[6/4] w-full object-cover motion-safe:transition-transform motion-safe:duration-700 motion-safe:group-hover:scale-[1.025]"
               sizes="(max-width: 767px) 95vw, (max-width: 1600px) 42vw, 600px"
             />
           </motion.div>
         </motion.section>
 
-        <WhyChooseUs reduceMotion={reduceMotion} />
+        {whyChooseUs}
         <FertilitySolutions />
       </div>
 
@@ -480,7 +494,7 @@ function BookingDetails() {
       <DoctorSlider />
       <PatientReviews />
 
-      <BookingBanner titleId="booking-banner-title" reduceMotion={reduceMotion} />
+      {bookingBanner}
 
       <motion.section
         aria-labelledby="booking-awards-title"
@@ -532,7 +546,7 @@ function BookingDetails() {
       </motion.section>
 
       <BookingFaq />
-      <BookingBanner titleId="booking-footer-banner-title" reduceMotion={reduceMotion} />
+      {footerBookingBanner}
 
       <footer role="contentinfo" aria-label="Booking page footer" className="mt-6 border-t border-[#e0e6ef] bg-white px-4 sm:mt-8 sm:px-6">
         <div className="mx-auto flex w-full max-w-[1320px] flex-col items-center justify-between gap-1.5 py-3 text-center text-[#283754] sm:flex-row sm:gap-4 sm:text-left">
@@ -574,43 +588,6 @@ function BookingDetails() {
       </AnimatePresence>
     </div>
   );
-}
-
-export default function BookAppointment() {
-  useSmoothWheel();
-  const reduceMotion = useReducedMotion();
-  const [activeSlide, setActiveSlide] = useState(0);
-  const [playing, setPlaying] = useState(false);
-  const [hovered, setHovered] = useState(false);
-  const [focused, setFocused] = useState(false);
-
-  useEffect(() => {
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPlaying(!reducedMotion.matches);
-    const handleMotionChange = (event) => setPlaying(!event.matches);
-    reducedMotion.addEventListener("change", handleMotionChange);
-    return () => reducedMotion.removeEventListener("change", handleMotionChange);
-  }, []);
-
-  useEffect(() => {
-    if (!playing || hovered || focused) return;
-    const timer = window.setTimeout(() => {
-      setActiveSlide((index) => (index + 1) % slides.length);
-    }, 6500);
-    return () => window.clearTimeout(timer);
-  }, [activeSlide, focused, hovered, playing]);
-
-  const copyVariants = {
-    active: {
-      visibility: "visible",
-      transition: reduceMotion ? { duration: 0 } : { duration: 0, delayChildren: 0.15, staggerChildren: 0.09 },
-    },
-    inactive: { visibility: "hidden", transition: { duration: 0, when: "afterChildren" } },
-  };
-  const textVariants = {
-    active: { opacity: 1, y: 0, transition: { duration: reduceMotion ? 0 : 0.62, ease: bannerEase } },
-    inactive: { opacity: 0, y: reduceMotion ? 0 : 14, transition: { duration: reduceMotion ? 0 : 0.16 } },
-  };
 
   return (
     <div className="min-h-[100svh] bg-white text-[#181d29] motion-safe:[html:has(&)]:scroll-smooth motion-reduce:[html:has(&)]:!scroll-auto max-md:[html:has(&)]:scroll-pb-[calc(3.75rem+env(safe-area-inset-bottom))] [&_:is(input,select,button,a):focus-visible]:outline [&_:is(input,select,button,a):focus-visible]:outline-2 [&_:is(input,select,button,a):focus-visible]:outline-offset-2 [&_:is(input,select,button,a):focus-visible]:outline-[#2682de]">
@@ -649,7 +626,7 @@ export default function BookAppointment() {
               </motion.div>
             );
           })}
-          <div className="absolute inset-0 z-10 bg-[linear-gradient(105deg,#0b2052ec,#16366885_58%,#132f5b42),linear-gradient(0deg,#0b2052ad,transparent_72%)] min-[701px]:bg-[linear-gradient(90deg,#0d214ff5,#19366a99_35%,#1c3d772e_72%,#1c3d7712),linear-gradient(180deg,#172e604d,transparent_86%)]" />
+          <div className="absolute inset-0 z-10 bg-[linear-gradient(105deg,#0b2052bf,#16366866_58%,#132f5b24),linear-gradient(0deg,#0b205263,transparent_72%)] min-[701px]:bg-[linear-gradient(90deg,#0d214fd1,#19366a7a_35%,#1c3d771c_72%,transparent),linear-gradient(180deg,#172e6026,transparent_86%)]" />
         </div>
 
         <section
@@ -680,13 +657,13 @@ export default function BookAppointment() {
                 initial={false}
                 animate={index === activeSlide ? "active" : "inactive"}
               >
-                <motion.p
+                 <motion.p
                   variants={textVariants}
                   className="mb-[clamp(15px,2vw,28px)] inline-flex w-fit max-w-full items-center gap-2 rounded-full border border-white/30 bg-white/10 px-3.5 py-2 text-[clamp(.7rem,1vw,.83rem)] font-semibold leading-snug tracking-[.04em] text-white backdrop-blur-sm"
                 >
                   <Award className="shrink-0 text-[#ffd48e]" size={17} aria-hidden="true" />
                   {slide.label}
-                </motion.p>
+                </motion.p> 
                 <motion.h1
                   aria-label={slide.title + " " + slide.highlight}
                   variants={textVariants}
@@ -735,10 +712,10 @@ export default function BookAppointment() {
           </div>
         </section>
 
-        <AppointmentForm />
+        {appointmentForm}
       </div>
 
-      <BookingDetails />
+      {bookingDetails}
     </div>
   );
 }

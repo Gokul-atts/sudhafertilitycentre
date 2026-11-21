@@ -8,101 +8,103 @@ import {
   Check,
   ChevronDown,
   Dna,
-  HeartPulse,
-  MessageCircleHeart,
   Microscope,
   Snowflake,
   Syringe,
-  TestTubeDiagonal,
 } from "lucide-react";
-import ivfImage from "@/assets/Treatments/IVF/about.webp";
-import icsiImage from "@/assets/Treatments/ICSI/About.webp";
-import iuiImage from "@/assets/Treatments/IUI/About.webp";
-import femaleCareImage from "@/assets/Treatments/Female/Banner.webp";
-import maleCareImage from "@/assets/Treatments/Male/Banner.webp";
-import geneticTestingImage from "@/assets/Treatments/Blastocyst/About.webp";
-import labImage from "@/assets/Treatments/IVF/microscope.webp";
-import counsellingImage from "@/assets/Home/tab1.webp";
+import { MdOutlinePregnantWoman } from "react-icons/md";
+import { RiSurgicalMaskLine } from "react-icons/ri";
+import { TbGenderFemale, TbGenderMale } from "react-icons/tb";
+import oneImage from "@/assets/book-appointment/one.webp";
+import twoImage from "@/assets/book-appointment/two.webp";
+import threeImage from "@/assets/book-appointment/three.webp";
+import fourImage from "@/assets/book-appointment/four.webp";
+import fiveImage from "@/assets/book-appointment/five.webp";
+import sixImage from "@/assets/book-appointment/six.webp";
+import sevenImage from "@/assets/book-appointment/seven.webp";
+import eightImage from "@/assets/book-appointment/eight.webp";
+
 
 const treatments = [
   {
     id: "ivf",
-    label: "IVF",
-    title: "IVF (In Vitro Fertilisation)",
+    label: "IVF & ICSI Treatment",
+    title: "IVF & ICSI Treatment",
     icon: Microscope,
-    image: ivfImage,
-    description: "Personalised IVF care to support your parenthood journey. From fertility assessment to embryo transfer, our team will explain each step and help you understand your options.",
+    image: oneImage,
+    description: "When simpler treatments have not worked, IVF and ICSI can open the door to parenthood. In IVF, an egg and sperm are brought together in our lab. In ICSI, one healthy sperm is placed directly into the egg, which helps greatly when sperm count or movement is low. Our doctors choose what suits you best and guide you gently through each stage.",
     steps: [
       "Fertility Assessment & Counselling",
       "Personalised Treatment Planning",
       "Ovarian Stimulation & Monitoring",
-      "Egg Collection & Fertilisation",
+      "Egg Collection & Fertilisation (by IVF or ICSI)",
       "Embryo Transfer & Follow-Up Care",
     ],
   },
   {
     id: "icsi",
-    label: "ICSI Treatment",
-    title: "ICSI (Intracytoplasmic Sperm Injection)",
+    label: "IUI Treatment",
+    title: "IUI Treatment",
     icon: Syringe,
-    image: icsiImage,
-    description: "ICSI is a fertilisation technique used as part of IVF. Your fertility specialist can explain how it works and discuss whether it fits your treatment plan.",
-    steps: ["Fertility Assessment", "Semen Analysis Review", "IVF & ICSI Planning", "Follow-Up Care"],
+    image: twoImage,
+    description: "IUI is a simple, gentle first step for many couples. Healthy, well-prepared sperm are placed inside the womb around the time of ovulation, so they have a shorter way to travel. It is a quick procedure with no surgery.",
+    steps: ["Fertility Check-Up & Suitability Assessment", "Ovulation Tracking & Gentle Medicines (if needed)", "Sperm Preparation in Our Lab", "Quick and Comfortable IUI Procedure","Pregnancy Test & Follow-Up Guidance"],
   },
   {
     id: "iui",
-    label: "IUI Treatment",
-    title: "IUI (Intrauterine Insemination)",
-    icon: TestTubeDiagonal,
-    image: iuiImage,
-    description: "IUI is a fertility treatment timed around ovulation. Our team can guide you through the assessment, scheduling, and follow-up.",
-    steps: ["Initial Consultation", "Cycle Monitoring", "Insemination Planning", "Follow-Up Care"],
+    label: "Female Fertility Care",
+    title: "Female Fertility Care",
+    icon: TbGenderFemale,
+    image: threeImage,
+    description: "Many women carry their worries silently. We find the cause with kindness and treat it with care, whether it is irregular periods, PCOS/PCOD or blocked tubes.",
+    steps: ["Detailed History & Hormone Tests", "Scan-Based Check of Ovaries and Womb", "PCOS/PCOD & Irregular Period Care", "Laparoscopic Treatment, When Surgery Is Needed","Diet Plans & Counselling Support"],
   },
   {
     id: "female-care",
-    label: "Female Fertility Care",
-    title: "Female Fertility Care",
-    icon: HeartPulse,
-    image: femaleCareImage,
-    description: "Discuss your medical history and fertility concerns with a specialist. Together, you can review any recommended tests and decide on your next steps.",
-    steps: ["Medical & Cycle History", "Fertility Assessment", "Review of Test Results", "Personalised Care Plan"],
+    label: "Male Fertility Care",
+    title: "Male Fertility Care",
+    icon: TbGenderMale,
+    image: fourImage,
+    description: "Male factors are part of many couples' stories, and there is nothing to feel ashamed of. We offer private, respectful evaluation and treatment to improve sperm health and your chance of becoming a father.",
+    steps: ["Semen Analysis & Hormone Tests", "Private, Judgement-Free Consultation", "Treatment for Low Count, Low Movement or Shape Problems", "Medicines, Lifestyle Guidance & Counselling","Sperm Retrieval Procedures Like TESE & PESA, When Needed"],
   },
   {
     id: "male-care",
-    label: "Male Fertility Care",
-    title: "Male Fertility Care",
-    icon: HeartPulse,
-    image: maleCareImage,
-    description: "Our specialists can help you understand male fertility concerns, review your results, and discuss treatment options with you.",
-    steps: ["Specialist Consultation", "Semen Analysis Review", "Discussion of Treatment Options", "Follow-Up Planning"],
-  },
-  {
-    id: "pgt",
-    label: "Genetic Testing (PGT)",
-    title: "Preimplantation Genetic Testing (PGT)",
-    icon: Dna,
-    image: geneticTestingImage,
-    description: "PGT is an option some patients discuss during IVF. Our team can explain what testing may look for, its limitations, and whether to consider it.",
-    steps: ["Genetic Counselling", "Review of Testing Options", "IVF Care Coordination", "Results Discussion"],
-  },
-  {
-    id: "cryopreservation",
-    label: "Cryopreservation",
-    title: "Cryopreservation",
+    label: "Fertility Preservation",
+    title: "Fertility Preservation",
     icon: Snowflake,
-    image: labImage,
-    description: "Talk with a fertility specialist about preserving eggs, sperm, or embryos for possible future use and what storage involves.",
-    steps: ["Fertility Preservation Consultation", "Review of Freezing Options", "Storage Planning", "Ongoing Guidance"],
+    image: fiveImage,
+    description: "Not ready for a baby today? Protect your chances for tomorrow. Eggs or sperm can be safely frozen and stored until the time is right, whether for career plans, a health treatment or a personal choice.",
+    steps: ["Preservation Counselling & Planning", "Egg Freezing", "Sperm Freezing", "Guidance on the Right Time to Freeze","Safe Storage & Use When You Are Ready"],
   },
   {
-    id: "counselling",
-    label: "Fertility Counselling",
-    title: "Fertility Counselling",
-    icon: MessageCircleHeart,
-    image: counsellingImage,
-    description: "Speak with the fertility care team, ask questions, and get support as you consider the next steps in your parenthood journey.",
-    steps: ["One-to-One Discussion", "Guidance on Tests & Treatments", "Support With Decisions", "Planning Your Next Steps"],
+    id: "laparoscopy",
+    label: "Laparoscopy & Hysteroscopy",
+    title: "Laparoscopy & Hysteroscopy",
+    icon: RiSurgicalMaskLine,
+    image: sixImage,
+    description: "Sometimes a small physical block, fibroid, or polyp stands in the way of pregnancy. Using a thin camera and tiny keyhole instruments, our specialists gently examine and treat issues inside the womb or pelvis—helping you heal faster with minimal discomfort.",
+    steps: ["Gentle Keyhole Evaluation of Womb & Tubes", "Removal of Fibroids, Polyps or Cysts", "Endometriosis & Blocked Tube Care", "Minimal Scarring & Quick Recovery","Personalised Post-Procedure Fertility Plan"],
   },
+  {
+    id: "genetic",
+    label: "Genetic Testing (PGT)",
+    title: "Genetic Testing (PGT)",
+    icon: Dna,
+    image: sevenImage,
+    description: "Every parent wishes for a healthy baby. Preimplantation Genetic Testing checks embryos for chromosomal or inherited conditions before transfer, helping our doctors choose the healthiest embryo and giving you greater peace of mind from the very start.",
+    steps: ["Genetic Counselling & Family History Review", "Safe, Gentle Cell Sampling from the Embryo", "Screening for Chromosomal Balance", "Selection of Healthy Embryos for Transfer","Compassionate Guidance Throughout the Process"],
+  },
+  {
+    id: "pregnancy",
+    label: "Pregnancy & Antenatal Care",
+    title: "Pregnancy & Antenatal Care",
+    icon: MdOutlinePregnantWoman,
+    image: eightImage,
+    description: "Our care does not stop the day you see a positive pregnancy test. From your very first heartbeat scan to safe delivery, our obstetricians walk beside you with regular check-ups, nutrition advice, and round-the-clock support.",
+    steps: ["Early Pregnancy & Heartbeat Scans", "Regular Check-Ups & Growth Monitoring", "High-Risk & IVF Pregnancy Care", "Nutrition, Wellness & Emotional Support","Safe Delivery Planning & Newborn Care"],
+  },
+
 ];
 
 const panelId = "fertility-treatment-panel";
@@ -249,7 +251,7 @@ export default function FertilitySolutions() {
           Comprehensive <span className="text-[#1b347c]">Fertility Solutions</span>
         </h2>
         <p className="mx-auto mt-2 max-w-[44ch] text-balance text-[clamp(.97rem,1.6vw,1.25rem)] font-medium leading-snug text-[#29344c]">
-          Tailored Treatment Plans Designed Around Your Comfort and Goals.
+          Gentle, step-by-step care designed around your body, your comfort and your dream of parenthood.
         </p>
       </motion.div>
 

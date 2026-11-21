@@ -116,8 +116,8 @@ export default function PatientReviews() {
               </span>
             </span>
           </span>
-          <span className="font-semibold text-[#1b347c]">4.7/5</span>
-          <span>Google rating · Coimbatore</span>
+          {/* <span className="font-semibold text-[#1b347c]">4.7/5</span>
+          <span>Google rating · Coimbatore</span> */}
         </a>
       </motion.div>
 

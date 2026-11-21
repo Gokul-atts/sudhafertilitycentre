@@ -5,24 +5,24 @@ import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
-import dhanabagyam from "@/assets/Home/Founder.webp";
+import dhanabagyam from "@/assets/book-appointment/dhanabakiyamone.webp";
 
 const doctors = [
   {
     name: "Dr. S. Pradeepa Sudhakar",
-    role: "Senior Consultant, IVF & ART Specialist",
-    headline: "Four Decades of Compassionate Care in Parenthood",
+    role: "MBBS, DGO, DNB (OG), MNAMS, FICOG Senior Consultant, IVF & ART Specialist | Vice President, Sudha Hospitals",
+    headline: "",
     image: pradeepa,
     imagePosition: "object-[50%_43%]",
-    bio: "Dr. Pradeepa specialises in fertility care and assisted reproductive techniques. She combines clinical care with counselling to help patients understand their options at every stage of treatment. As Vice President of Sudha Hospitals, she has helped extend that care to more families.",
+    bio: "Behind every Sudha success story is a doctor who listens first. Dr. Pradeepa is a senior IVF and ART specialist, known for her skill in fertility-enhancing procedures and advanced reproductive techniques. Her patients know her for something just as important: patience. She takes time to understand each couple, explains each stage clearly and never lets anyone feel rushed.",
   },
   {
     name: "Dr. S. Dhanabagyam",
-    role: "Senior Consultant, IVF & ART Specialist",
-    headline: "Bringing Fertility Care Closer to Families",
+    role: "MBBS, MD (O&G), ART",
+    headline: "Senior Consultant, IVF & ART Specialist | President, Sudha Hospitals",
     image: dhanabagyam,
-    imagePosition: "object-[56%_center]",
-    bio: "Dr. Dhanabagyam helped establish the first Sudha Fertility Centre in Erode in 1995 to make fertility and women’s health care more accessible. She helped grow the centre’s network across South India and Sri Lanka and guides patients through assessment and treatment decisions.",
+    imagePosition: "object-[50%_43%]",
+    bio: "At the heart of Sudha's legacy is a doctor who turned a vision of accessible fertility care into reality. With over four decades of experience, Dr. S. Dhanabagyam is a renowned obstetrician, gynaecologist, and ART specialist. Since founding the first Sudha Fertility Centre in 1995, she has helped couples overcome complex infertility challenges with ethical, transparent care.",
   },
 ];
 
@@ -70,7 +70,7 @@ export default function DoctorSlider() {
         >
           <p className="mb-2 text-xs font-semibold uppercase leading-none tracking-[.18em] text-[#476294]">Our Doctors</p>
           <h2 id="doctor-slider-title" className="text-[clamp(1.55rem,3.2vw,2.35rem)] font-semibold leading-tight tracking-tight text-[#181d29]">
-            Happy <span className="text-[#1b347c]">Parenthood Stories.</span>
+            Four Decades of Compassionate <span className="text-[#1b347c]">Care in Parenthood</span>
           </h2>
         </motion.div>
 
@@ -119,7 +119,7 @@ export default function DoctorSlider() {
                     </h3>
                     <p className="mt-1.5 text-sm font-medium leading-snug text-[#476294]">{doctor.role}</p>
                     <div className="mt-4 border-t border-[#e9eef7] pt-4 md:mt-5 md:pt-5">
-                      <p className="max-w-[30ch] text-balance text-[clamp(1.06rem,1.7vw,1.35rem)] font-semibold leading-snug text-[#1d2b45]">
+                      <p className="max-w-[30ch] text-balance text-[clamp(1.00rem,1.7vw,1.15rem)] font-semibold leading-snug text-[#1d2b45]">
                         {doctor.headline}
                       </p>
                       <p className="mt-2 max-w-[53ch] text-pretty font-[family-name:var(--font-inter)] text-[clamp(.91rem,1.18vw,.99rem)] leading-[1.75] text-[#546078]">

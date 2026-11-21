@@ -6,37 +6,34 @@ import { ArrowRight, Plus } from "lucide-react";
 
 const questions = [
   {
-    question: "What fertility treatments are provided at Sudha Fertility Centre?",
-    answer: "Sudha Fertility Centre offers IVF, IUI, ICSI and fertility preservation. A specialist can explain which options may suit you and confirm what is available at your chosen branch.",
+    question: "What is the cost of IVF treatment?",
+    answer: "The cost is different for every couple, as it depends on age, test results, medicines and the treatment needed. Our doctors explain the plan and the estimate before you begin. Visit us for a consultation to get a clear estimate for your case.",
   },
   {
-    question: "Why choose Sudha Fertility Centre for fertility treatments?",
-    answer: "Our fertility specialists work with embryologists, nurses and counsellors. We review your medical history, explain the available options and help you plan the next step.",
-  },
-  {
-    question: "What can cause infertility?",
-    answer: "Possible causes include problems with ovulation, blocked fallopian tubes, endometriosis, and low sperm count or movement. More than one factor can contribute, and sometimes an evaluation finds no clear cause.",
+    question: "What is the success rate of IVF at Sudha Fertility Centre?",
+    answer: "Success depends on age, the cause of infertility and the quality of eggs and sperm. Thousands of IVF babies have been born with Sudha's care. After your tests, you will get an honest picture of your chances and how they can be improved.",
   },
   {
     question: "When is the right time to consult a fertility specialist?",
-    answer: "If there are no known fertility concerns, a fertility evaluation is generally recommended after 12 months of trying to conceive when the female partner is under 35, or after 6 months at age 35 or older. If the female partner is over 40 or either partner has a known fertility concern, seek advice sooner.",
+    answer: "If you are under 35 and have been trying for 12 months without success, it is time to meet a specialist. If you are 35 or above, do not wait more than 6 months. Meet us sooner if you have irregular periods, PCOS, endometriosis, a past surgery or any known sperm problem.",
   },
   {
-    question: "Can I get counselling from Sudha Fertility Centre?",
-    answer: "Yes. Fertility counselling gives you space to ask questions, talk through your concerns and get support as you weigh your treatment options.",
+    question: "What are the common reasons for infertility?",
+    answer: "Infertility can come from the woman, the man or both, and sometimes no clear cause is found. In women, common reasons are PCOS, irregular ovulation, blocked tubes, endometriosis and age. In men, it is usually low sperm count or movement. It is no one's fault, and many causes can be treated.",
   },
   {
-    question: "What can I expect at my first consultation?",
-    answer: "Your specialist will ask about your medical history and fertility concerns. They can explain any recommended tests, what those tests may show and what happens next.",
+    question: "What fertility treatments are provided at Sudha Fertility Centre?",
+    answer: "We offer IVF, ICSI, IUI, treatment for PCOS/PCOD and other female and male fertility problems, egg and sperm donation, and fertility preservation. You are advised only what you truly need.",
   },
   {
-    question: "How much does fertility treatment cost?",
-    answer: "Costs depend on the tests and treatment you need. Your care team can explain the estimated costs of your treatment plan during your consultation.",
+    question: "IVF or IUI: which one is right for us?",
+    answer: "IUI is a simpler treatment, often suggested when the tubes are open and sperm quality is fair. IVF is suggested when IUI has not worked, or when there are blocked tubes, low sperm count, endometriosis or advanced age. The right choice is decided together with you after your tests.",
   },
   {
-    question: "How do I book a fertility consultation?",
-    answer: "Use the booking form on this page, call the helpline, or message us on WhatsApp. Our team will help you arrange a consultation at your chosen branch.",
+    question: "Is IVF treatment painful?",
+    answer: "Most women find IVF comfortable. You may feel mild bloating or tiredness during the medicines. Egg collection is done with short sedation, so you do not feel pain, and most women return to normal routines soon after.",
   },
+
 ];
 
 const initialCount = 5;
@@ -121,7 +118,7 @@ export default function BookingFaq() {
         viewport={{ once: true, amount: 0.5 }}
         transition={{ duration: reduceMotion ? 0 : 0.42, ease }}
       >
-        Frequently Asked Questions
+        Honest answers to the questions couples ask us most.
       </motion.h2>
 
       <motion.div

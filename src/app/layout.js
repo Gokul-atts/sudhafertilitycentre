@@ -1,6 +1,7 @@
 import "./globals.css";
 import "./critical.css";
-import { Outfit, Inter, Noto_Sans_Kannada } from "next/font/google";
+import "./fonts/noto-sans-kannada/font.css";
+import { Outfit, Inter } from "next/font/google";
 import Header from "@/components/Header/header";
 import Footer from "@/components/footer/footer";
 import ClientLayout from "@/components/Header/ClientLayout";
@@ -22,15 +23,6 @@ const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   weight: ["300", "400", "500", "600"],
-});
-
-// Reduced from 9 weights to 2 — saves ~60 KB of font payload for most visitors
-const notoSansKannada = Noto_Sans_Kannada({
-  variable: "--font-noto-kannada",
-  subsets: ["kannada"],
-  display: "swap",
-  weight: ["400", "700"],
-  preload: false, // Only load on demand — most pages don't need Kannada script
 });
 
 const ogimgURL = ogimg.src;
@@ -121,7 +113,7 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-      <body className={` ${outfit.variable} ${inter.variable} ${notoSansKannada.variable} antialiased font-outfit`}>
+      <body className={`${outfit.variable} ${inter.variable} antialiased font-outfit`}>
         {/* Google Tag Manager - Noscript fallback */}
         <noscript>
           <iframe
