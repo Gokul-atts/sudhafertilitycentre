@@ -31,6 +31,7 @@ const treatments = [
     label: "IVF & ICSI Treatment",
     title: "IVF & ICSI Treatment",
     icon: Microscope,
+    iconClass: "bg-blue-50 text-blue-700",
     image: oneImage,
     description: "When simpler treatments have not worked, IVF and ICSI can open the door to parenthood. In IVF, an egg and sperm are brought together in our lab. In ICSI, one healthy sperm is placed directly into the egg, which helps greatly when sperm count or movement is low. Our doctors choose what suits you best and guide you gently through each stage.",
     steps: [
@@ -46,6 +47,7 @@ const treatments = [
     label: "IUI Treatment",
     title: "IUI Treatment",
     icon: Syringe,
+    iconClass: "bg-teal-50 text-teal-700",
     image: twoImage,
     description: "IUI is a simple, gentle first step for many couples. Healthy, well-prepared sperm are placed inside the womb around the time of ovulation, so they have a shorter way to travel. It is a quick procedure with no surgery.",
     steps: ["Fertility Check-Up & Suitability Assessment", "Ovulation Tracking & Gentle Medicines (if needed)", "Sperm Preparation in Our Lab", "Quick and Comfortable IUI Procedure","Pregnancy Test & Follow-Up Guidance"],
@@ -55,6 +57,7 @@ const treatments = [
     label: "Female Fertility Care",
     title: "Female Fertility Care",
     icon: TbGenderFemale,
+    iconClass: "bg-rose-50 text-rose-700",
     image: threeImage,
     description: "Many women carry their worries silently. We find the cause with kindness and treat it with care, whether it is irregular periods, PCOS/PCOD or blocked tubes.",
     steps: ["Detailed History & Hormone Tests", "Scan-Based Check of Ovaries and Womb", "PCOS/PCOD & Irregular Period Care", "Laparoscopic Treatment, When Surgery Is Needed","Diet Plans & Counselling Support"],
@@ -64,6 +67,7 @@ const treatments = [
     label: "Male Fertility Care",
     title: "Male Fertility Care",
     icon: TbGenderMale,
+    iconClass: "bg-indigo-50 text-indigo-700",
     image: fourImage,
     description: "Male factors are part of many couples' stories, and there is nothing to feel ashamed of. We offer private, respectful evaluation and treatment to improve sperm health and your chance of becoming a father.",
     steps: ["Semen Analysis & Hormone Tests", "Private, Judgement-Free Consultation", "Treatment for Low Count, Low Movement or Shape Problems", "Medicines, Lifestyle Guidance & Counselling","Sperm Retrieval Procedures Like TESE & PESA, When Needed"],
@@ -73,6 +77,7 @@ const treatments = [
     label: "Fertility Preservation",
     title: "Fertility Preservation",
     icon: Snowflake,
+    iconClass: "bg-sky-50 text-sky-700",
     image: fiveImage,
     description: "Not ready for a baby today? Protect your chances for tomorrow. Eggs or sperm can be safely frozen and stored until the time is right, whether for career plans, a health treatment or a personal choice.",
     steps: ["Preservation Counselling & Planning", "Egg Freezing", "Sperm Freezing", "Guidance on the Right Time to Freeze","Safe Storage & Use When You Are Ready"],
@@ -82,6 +87,7 @@ const treatments = [
     label: "Laparoscopy & Hysteroscopy",
     title: "Laparoscopy & Hysteroscopy",
     icon: RiSurgicalMaskLine,
+    iconClass: "bg-emerald-50 text-emerald-700",
     image: sixImage,
     description: "Sometimes a small physical block, fibroid, or polyp stands in the way of pregnancy. Using a thin camera and tiny keyhole instruments, our specialists gently examine and treat issues inside the womb or pelvis—helping you heal faster with minimal discomfort.",
     steps: ["Gentle Keyhole Evaluation of Womb & Tubes", "Removal of Fibroids, Polyps or Cysts", "Endometriosis & Blocked Tube Care", "Minimal Scarring & Quick Recovery","Personalised Post-Procedure Fertility Plan"],
@@ -91,6 +97,7 @@ const treatments = [
     label: "Genetic Testing (PGT)",
     title: "Genetic Testing (PGT)",
     icon: Dna,
+    iconClass: "bg-violet-50 text-violet-700",
     image: sevenImage,
     description: "Every parent wishes for a healthy baby. Preimplantation Genetic Testing checks embryos for chromosomal or inherited conditions before transfer, helping our doctors choose the healthiest embryo and giving you greater peace of mind from the very start.",
     steps: ["Genetic Counselling & Family History Review", "Safe, Gentle Cell Sampling from the Embryo", "Screening for Chromosomal Balance", "Selection of Healthy Embryos for Transfer","Compassionate Guidance Throughout the Process"],
@@ -100,6 +107,7 @@ const treatments = [
     label: "Pregnancy & Antenatal Care",
     title: "Pregnancy & Antenatal Care",
     icon: MdOutlinePregnantWoman,
+    iconClass: "bg-amber-50 text-amber-800",
     image: eightImage,
     description: "Our care does not stop the day you see a positive pregnancy test. From your very first heartbeat scan to safe delivery, our obstetricians walk beside you with regular check-ups, nutrition advice, and round-the-clock support.",
     steps: ["Early Pregnancy & Heartbeat Scans", "Regular Check-Ups & Growth Monitoring", "High-Risk & IVF Pregnancy Care", "Nutrition, Wellness & Emotional Support","Safe Delivery Planning & Newborn Care"],
@@ -110,7 +118,12 @@ const treatments = [
 const panelId = "fertility-treatment-panel";
 const ease = [0.22, 1, 0.36, 1];
 const rowClass =
-  "flex min-h-12 w-full min-w-0 items-center gap-2.5 rounded-lg border border-[#e8edf5] bg-white px-3 py-2 text-left text-sm font-medium leading-snug text-[#4a566d] hover:border-[#becff1] hover:text-[#1b347c] motion-safe:transition-colors lg:px-4 lg:text-[.95rem]";
+  "flex min-h-12 w-full min-w-0 items-center gap-2.5 rounded-lg border border-[#e8edf5] bg-white px-3 py-2 text-left text-sm font-medium leading-snug text-[#4a566d] hover:border-[#becff1] hover:text-[#1b347c] lg:px-4 lg:text-[.95rem]";
+const tabClass =
+  "group relative hover:z-10 hover:bg-[#fcfdff] hover:shadow-[0_6px_16px_#1b347c1a] focus-visible:z-10 " +
+  "aria-selected:border-[#819ad5] aria-selected:bg-[#f9fbff] aria-selected:text-[#1b347c] aria-selected:shadow-[0_4px_12px_#1b347c15] " +
+  "motion-safe:transition-[scale,background-color,border-color,color,box-shadow] motion-safe:duration-200 " +
+  "motion-safe:hover:[scale:1.025] motion-safe:focus-visible:[scale:1.025] motion-reduce:!transform-none motion-reduce:!opacity-100";
 const detailsMotion = {
   hidden: { opacity: 0, y: 8 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.32, ease, staggerChildren: 0.055 } },
@@ -127,6 +140,17 @@ const rowMotion = {
   hidden: { opacity: 0.7, y: 9 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.36, ease } },
 };
+
+function TreatmentIcon({ icon: Icon, iconClass }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={`grid size-8 shrink-0 place-items-center rounded-lg motion-safe:transition-transform motion-safe:duration-200 motion-safe:group-hover:scale-110 motion-safe:group-focus-visible:scale-110 ${iconClass}`}
+    >
+      <Icon size={19} strokeWidth={1.7} />
+    </span>
+  );
+}
 
 function TreatmentChevron({ expanded, reduceMotion }) {
   return (
@@ -263,7 +287,7 @@ export default function FertilitySolutions() {
         viewport={{ once: true, amount: 0.15 }}
       >
         {treatments.map((item, index) => {
-          const { id, icon: Icon, label } = item;
+          const { id, icon, iconClass, label } = item;
           const expanded = mobileOpen && selected === index;
           const triggerId = `fertility-accordion-${id}`;
           const contentId = `fertility-accordion-panel-${id}`;
@@ -280,9 +304,9 @@ export default function FertilitySolutions() {
                     if (expanded) setMobileOpen(false);
                     else selectTreatment(index);
                   }}
-                  className={rowClass + " scroll-mt-4 aria-expanded:border-[#819ad5] aria-expanded:bg-[#f9fbff] aria-expanded:text-[#1b347c]"}
+                  className={rowClass + " scroll-mt-4 aria-expanded:border-[#819ad5] aria-expanded:bg-[#f9fbff] aria-expanded:text-[#1b347c] motion-safe:transition-colors"}
                 >
-                  <Icon size={19} strokeWidth={1.7} className="shrink-0" aria-hidden="true" />
+                  <TreatmentIcon icon={icon} iconClass={iconClass} />
                   <span>{label}</span>
                   <TreatmentChevron expanded={expanded} reduceMotion={reduceMotion} />
                 </button>
@@ -320,7 +344,7 @@ export default function FertilitySolutions() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.15 }}
         >
-          {treatments.map(({ id, label, icon: Icon }, index) => (
+          {treatments.map(({ id, label, icon, iconClass }, index) => (
             <motion.button
               key={id}
               ref={(element) => { tabRefs.current[index] = element; }}
@@ -333,9 +357,9 @@ export default function FertilitySolutions() {
               onClick={() => selectTreatment(index)}
               onKeyDown={(event) => handleTabKey(event, index)}
               variants={reduceMotion ? undefined : rowMotion}
-              className={rowClass + " aria-selected:border-[#819ad5] aria-selected:text-[#1b347c] aria-selected:shadow-[0_4px_12px_#1b347c15] motion-reduce:!transform-none motion-reduce:!opacity-100"}
+              className={`${rowClass} ${tabClass}`}
             >
-              <Icon size={19} strokeWidth={1.7} className="shrink-0" aria-hidden="true" />
+              <TreatmentIcon icon={icon} iconClass={iconClass} />
               <span>{label}</span>
               <TreatmentChevron expanded={selected === index} reduceMotion={reduceMotion} />
             </motion.button>

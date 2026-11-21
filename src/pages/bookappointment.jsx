@@ -3,14 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Award, CalendarDays, Compass, HandHeart, HeartPulse, Microscope, Pause, Phone, Play, ReceiptIndianRupee } from "lucide-react";
+import { ArrowRight, Award, CalendarDays, Compass, HandHeart, HeartPulse, Microscope, Phone, ReceiptIndianRupee } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { FaWhatsapp, FaYoutube } from "react-icons/fa6";
 import { useForm } from "react-hook-form";
-import bannerOne from "@/assets/book-appointment/banner-one.webp";
-import bannerTwo from "@/assets/book-appointment/banner-two.webp";
-import bannerThree from "@/assets/book-appointment/banner-three.webp";
+import familyPhoto from "@/assets/book-appointment/hero-family-desktop.webp";
+import carePhoto from "@/assets/book-appointment/hero-consultation-desktop.webp";
+import motherAndBabyPhoto from "@/assets/book-appointment/hero-mother-and-baby.webp";
 import sudhaBuilding from "@/assets/book-appointment/hospitals.webp";
 import wOne from "@/assets/book-appointment/w-1.svg";
 import wTwo from "@/assets/book-appointment/w-2.svg";
@@ -35,28 +35,31 @@ const whatsAppUrl = "https://wa.me/917670076006";
 const actionClass = "inline-flex items-center justify-center gap-2 rounded-full bg-[#1b347c] font-medium leading-tight text-white hover:bg-[#12275f]";
 const fieldClass = "w-full min-w-0 min-h-[46px] rounded-lg border border-[#cbd1dd] bg-white px-2.5 py-2 text-base text-[#181d29] placeholder:text-[#626979] invalid:[&:is(select)]:text-[#626979] aria-[invalid=true]:border-[#b42318] min-[701px]:min-h-[43px] min-[701px]:text-[.93rem]";
 const errorClass = "m-0 text-[.83rem] leading-[1.35] text-[#b42318]";
-const slideControlClass = "grid min-h-11 w-11 cursor-pointer place-items-center rounded-full text-white hover:bg-white/10 motion-safe:transition-colors min-[701px]:w-10";
+const slideControlClass = "grid size-11 cursor-pointer place-items-center rounded-full text-[#1b347c] hover:bg-[#e0eafb] motion-safe:transition-colors";
 const bannerEase = [0.22, 1, 0.36, 1];
 
 const slides = [
   {
-    image: bannerOne,
+    image: familyPhoto,
+    imageAlt: "Parents smiling as they hold their baby",
     label: "40+ Years of Expertise | 50+ Branches",
     title: "Your Dream of Parenthood",
     highlight: "Starts Here",
     description: "Caring doctors, gentle treatment and a team that stands by you at every step.",
   },
   {
-    image: bannerTwo,
-    label: " 4 Lakh+ Couples Counselled | 1 Lakh+ Happy Families",
+    image: carePhoto,
+    imageAlt: "A clinician reassuring a patient",
+    label: "4 Lakh+ Couples Counselled | 1 Lakh+ Happy Families",
     title: "You Are Not Alone",
     highlight: "on This Journey",
     description: "Every worry, every question, every hope. Bring them all to us, and we will guide you with care.",
   },
   {
-    image: bannerThree,
+    image: motherAndBabyPhoto,
+    imageAlt: "A mother smiling at her baby",
     label: "60,000+ IVF Babies | 35,000+ IUI Babies",
-    title: "Every Family Deserves ",
+    title: "Every Family Deserves",
     highlight: "Its Little Joy",
     description: "Come with your hopes and your questions. We will bring the care, the experience and the patience.",
   },
@@ -125,9 +128,6 @@ export default function BookAppointment() {
   const reduceMotion = useReducedMotion();
 
   const [activeSlide, setActiveSlide] = useState(0);
-  const [playing, setPlaying] = useState(false);
-  const [hovered, setHovered] = useState(false);
-  const [focused, setFocused] = useState(false);
 
   const detailsRef = useRef(null);
   const [showActions, setShowActions] = useState(false);
@@ -140,22 +140,6 @@ export default function BookAppointment() {
     setError,
     formState: { errors, isSubmitting },
   } = useForm({ defaultValues: { location: "" } });
-
-  useEffect(() => {
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPlaying(!reducedMotion.matches);
-    const handleMotionChange = (event) => setPlaying(!event.matches);
-    reducedMotion.addEventListener("change", handleMotionChange);
-    return () => reducedMotion.removeEventListener("change", handleMotionChange);
-  }, []);
-
-  useEffect(() => {
-    if (!playing || hovered || focused) return;
-    const timer = window.setTimeout(() => {
-      setActiveSlide((index) => (index + 1) % slides.length);
-    }, 6500);
-    return () => window.clearTimeout(timer);
-  }, [activeSlide, focused, hovered, playing]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -341,7 +325,7 @@ export default function BookAppointment() {
             className="group motion-reduce:!opacity-100 motion-reduce:!transform-none flex min-h-[132px] min-w-0 flex-col items-center justify-center gap-3 rounded-xl border border-[#e6ebf3] bg-white px-2.5 py-4 shadow-[0_4px_16px_#17336608] last:col-span-2 last:w-[calc(50%_-_0.375rem)] last:justify-self-center md:last:col-span-1 md:last:w-full lg:min-h-[152px]"
           >
             <motion.span
-              className="grid h-11 w-11 place-items-center rounded-full border border-[#dfe8fa] bg-[#f7faff] text-[#1b347c] motion-reduce:!transform-none lg:h-12 lg:w-12"
+              className="grid size-12 shrink-0 place-items-center rounded-full border border-[#dfe8fa] bg-[#f7faff] text-[#1b347c] motion-reduce:!transform-none lg:size-14"
               aria-hidden="true"
               initial={reduceMotion ? false : { scale: 0.82, y: 9, rotate: -9 }}
               whileInView={reduceMotion ? undefined : { scale: 1, y: 0, rotate: 0 }}
@@ -351,10 +335,10 @@ export default function BookAppointment() {
               <Image
                 src={icon}
                 alt=""
-                className="h-5 w-5 motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:rotate-[-8deg]"
+                className="size-6 motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:rotate-[-8deg] lg:size-7"
               />
             </motion.span>
-            <p className="max-w-[15ch] text-balance text-sm font-semibold leading-snug text-[#17213b] lg:text-base">{label}</p>
+            <p className="max-w-[min(18ch,100%)] text-balance break-words text-[.9375rem] font-semibold leading-snug text-[#17213b] lg:text-lg">{label}</p>
           </motion.li>
         ))}
       </ul>
@@ -600,119 +584,118 @@ export default function BookAppointment() {
         </a>
       </div>
 
-      <div className="relative isolate mx-auto mt-2.5 grid w-[95%] max-w-[1520px] grid-cols-[minmax(0,1fr)] items-center gap-3.5 rounded-[clamp(14px,1.6vw,26px)] min-[701px]:mt-0 min-[701px]:min-h-[clamp(445px,47vw,720px)] min-[701px]:grid-cols-[minmax(0,1fr)_minmax(265px,34%)] min-[701px]:gap-[clamp(24px,4vw,64px)] min-[701px]:p-[clamp(26px,4.7vw,72px)]">
-        <div className="absolute inset-0 -z-10 overflow-hidden rounded-[18px] bg-[#213e7d] [grid-area:1/1/2/2] min-[701px]:rounded-[inherit] min-[701px]:[grid-area:auto]" aria-hidden="true">
-          {slides.map((slide, index) => {
-            const isActive = index === activeSlide;
-
-            return (
-              <motion.div
-                key={slide.title}
-                className="absolute inset-0 motion-reduce:!transform-none"
-                data-active={isActive}
-                initial={index === 0 && !reduceMotion ? { opacity: 1, scale: 1.035 } : false}
-                animate={{ opacity: isActive ? 1 : 0, scale: isActive || reduceMotion ? 1 : 1.045 }}
-                transition={{ opacity: { duration: reduceMotion ? 0 : 0.68 }, scale: { duration: reduceMotion ? 0 : 1.35, ease: bannerEase } }}
-              >
-                <Image
-                  className="object-cover object-[58%_center] min-[701px]:object-center"
-                  src={slide.image}
-                  alt=""
-                  fill
-                  sizes="(max-width: 700px) 100vw, (max-width: 1600px) 95vw, 1520px"
-                  loading={index === 0 ? "eager" : "lazy"}
-                  fetchPriority={index === 0 ? "high" : "low"}
-                />
-              </motion.div>
-            );
-          })}
-          <div className="absolute inset-0 z-10 bg-[linear-gradient(105deg,#0b2052bf,#16366866_58%,#132f5b24),linear-gradient(0deg,#0b205263,transparent_72%)] min-[701px]:bg-[linear-gradient(90deg,#0d214fd1,#19366a7a_35%,#1c3d771c_72%,transparent),linear-gradient(180deg,#172e6026,transparent_86%)]" />
-        </div>
-
-        <section
-          className="min-w-0 px-[clamp(17px,5vw,32px)] pb-4 pt-7 text-white min-[701px]:p-0 [&_:is(button,a):focus-visible]:!outline-white"
-          aria-label="Fertility care highlights"
-          aria-roledescription="carousel"
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-          onFocus={() => setFocused(true)}
-          onBlur={(event) => {
-            if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false);
-          }}
-        >
-          <motion.div
-            className="grid motion-reduce:!transform-none motion-reduce:!opacity-100"
-            aria-live={playing ? "off" : "polite"}
-            initial={reduceMotion ? false : { opacity: 0.78, y: 9 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: reduceMotion ? 0 : 0.75, ease: bannerEase }}
+      <div className="overflow-hidden border-y border-[#e6ecf3] bg-[#f4f5f2] bg-[radial-gradient(ellipse_at_56%_75%,#e0eaf4,transparent_65%)]">
+        <div className="mx-auto grid max-w-[1480px] min-w-0 items-center gap-4 px-5 pb-6 sm:gap-6 sm:px-8 lg:min-h-[clamp(460px,37vw,575px)] lg:grid-cols-[minmax(0,1fr)_minmax(280px,29%)] lg:px-10 lg:pb-0 xl:gap-8 xl:px-12">
+          <section
+            className="grid min-w-0 items-center sm:grid-cols-[minmax(0,0.94fr)_minmax(0,1.06fr)] sm:gap-5 lg:self-stretch"
+            aria-label="Fertility care highlights"
+            aria-roledescription="carousel"
           >
-            {slides.map((slide, index) => (
+            <div className="relative isolate mx-auto h-[clamp(234px,75vw,350px)] w-full max-w-[500px] self-end [mask-image:linear-gradient(#000_88%,transparent)] sm:col-start-2 sm:row-start-1 sm:h-[clamp(300px,48vw,450px)] lg:h-[clamp(330px,29vw,440px)] lg:[mask-image:none]">
+              {slides.map((slide, index) => {
+                const isActive = index === activeSlide;
+                const isLandscape = slide.image.width > slide.image.height;
+
+                return (
+                  <motion.div
+                    key={slide.title}
+                    className={`absolute inset-x-[6%] bottom-0 ${isLandscape
+                      ? "top-[8%] lg:-inset-x-[3%] lg:top-0"
+                      : "top-[3%] lg:inset-x-[8%] lg:top-auto lg:aspect-[7/6]"}`}
+                    aria-hidden={!isActive}
+                    initial={false}
+                    animate={{ opacity: isActive ? 1 : 0 }}
+                    transition={{ duration: reduceMotion ? 0 : 0.48, ease: bannerEase }}
+                  >
+                    <Image
+                      className="object-contain object-bottom"
+                      src={slide.image}
+                      alt={slide.imageAlt}
+                      fill
+                      sizes="(max-width: 639px) 75vw, (max-width: 1023px) 39vw, (max-width: 1480px) 34vw, 500px"
+                      loading={index === 0 ? "eager" : "lazy"}
+                      fetchPriority={index === 0 ? "high" : "low"}
+                    />
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            <div className="min-w-0 pt-2 sm:col-start-1 sm:row-start-1 sm:py-9 lg:py-12">
               <motion.div
-                className="col-start-1 row-start-1 min-w-0 max-w-[36rem] self-end"
-                key={slide.title}
-                data-active={index === activeSlide}
-                aria-hidden={index !== activeSlide}
-                variants={copyVariants}
-                initial={false}
-                animate={index === activeSlide ? "active" : "inactive"}
+                className="grid motion-reduce:!transform-none motion-reduce:!opacity-100"
+                aria-live="polite"
+                initial={reduceMotion ? false : { y: 9 }}
+                animate={{ y: 0 }}
+                transition={{ duration: reduceMotion ? 0 : 0.75, ease: bannerEase }}
               >
-                 <motion.p
-                  variants={textVariants}
-                  className="mb-[clamp(15px,2vw,28px)] inline-flex w-fit max-w-full items-center gap-2 rounded-full border border-white/30 bg-white/10 px-3.5 py-2 text-[clamp(.7rem,1vw,.83rem)] font-semibold leading-snug tracking-[.04em] text-white backdrop-blur-sm"
-                >
-                  <Award className="shrink-0 text-[#ffd48e]" size={17} aria-hidden="true" />
-                  {slide.label}
-                </motion.p> 
-                <motion.h1
-                  aria-label={slide.title + " " + slide.highlight}
-                  variants={textVariants}
-                  className="mb-3.5 text-balance font-outfit text-[clamp(1.85rem,7.8vw,2.7rem)] font-semibold leading-[1.04] tracking-[-.035em] text-white min-[701px]:text-[clamp(1.95rem,3.7vw,3.7rem)]"
-                >
-                  {slide.title}{" "}
-                  <span className="text-[#cde1ff]">{slide.highlight}</span>
-                </motion.h1>
-                <motion.p
-                  variants={textVariants}
-                  className="max-w-[42ch] font-[family-name:var(--font-inter)] text-[clamp(.88rem,1.18vw,1.05rem)] font-normal leading-[1.68] text-[#f0f5ff]"
-                >
-                  {slide.description}
-                </motion.p>
+                {slides.map((slide, index) => (
+                  <motion.div
+                    className="col-start-1 row-start-1 min-w-0 max-w-[36rem] self-end"
+                    key={slide.title}
+                    data-active={index === activeSlide}
+                    aria-hidden={index !== activeSlide}
+                    variants={copyVariants}
+                    initial={false}
+                    animate={index === activeSlide ? "active" : "inactive"}
+                  >
+                    <motion.p
+                      variants={textVariants}
+                      className="mb-4 flex w-fit max-w-full items-center gap-2 text-base font-bold leading-snug text-[#1b347c] xl:text-lg"
+                    >
+                      <Award className="shrink-0 text-[#9a6415]" size={17} aria-hidden="true" />
+                      {slide.label}
+                    </motion.p>
+                    <motion.h1
+                      aria-label={slide.title + " " + slide.highlight}
+                      variants={textVariants}
+                      className={`mb-4 font-outfit font-semibold leading-[1.08] tracking-[-.035em] text-[#132950] ${index === 0
+                        ? "text-[clamp(1.5rem,5.2vw,2.15rem)] sm:text-[clamp(1.6rem,2.65vw,2.7rem)]"
+                        : "text-[clamp(1.85rem,5.8vw,2.75rem)] sm:text-[clamp(1.9rem,3.25vw,3.25rem)]"}`}
+                    >
+                      {slide.title}{" "}
+                      <span className="block text-[#24549d]">{slide.highlight}</span>
+                    </motion.h1>
+                    <motion.p
+                      variants={textVariants}
+                      className="max-w-[40ch] font-[family-name:var(--font-inter)] text-[clamp(.94rem,1.25vw,1.125rem)] leading-relaxed text-[#3d4d67]"
+                    >
+                      {slide.description}
+                    </motion.p>
+                  </motion.div>
+                ))}
               </motion.div>
-            ))}
-          </motion.div>
 
-          <a className={actionClass + " group mt-5 min-h-11 border border-white/35 px-5 py-2 text-[.9rem] shadow-[0_6px_24px_#0b205240] motion-safe:transition-colors"} href={whatsAppUrl}>
-            Connect With WhatsApp
-            <ArrowRight className="motion-safe:transition-transform motion-safe:group-hover:translate-x-1" size={18} aria-hidden="true" />
-          </a>
+              <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2">
+                <a className={`${actionClass} group min-h-12 px-4 py-2 text-sm motion-safe:transition-colors sm:px-5`} href="#contact-now">
+                  Book a Free Appointment
+                  <ArrowRight className="shrink-0 motion-safe:transition-transform motion-safe:group-hover:translate-x-0.5" size={16} aria-hidden="true" />
+                </a>
+                <a className="inline-flex min-h-11 items-center gap-1.5 rounded-lg px-2 text-sm font-semibold text-[#186247] hover:bg-[#e3efe9]" href={whatsAppUrl}>
+                  <FaWhatsapp size={18} aria-hidden="true" />
+                  WhatsApp
+                </a>
+              </div>
 
-          <div className="mt-2.5 flex w-max items-center" aria-label="Slide controls">
-            {slides.map((slide, index) => (
-              <button
-                key={slide.title}
-                type="button"
-                className={slideControlClass + " after:h-2 after:w-2 after:rounded-full after:bg-white/50 aria-pressed:after:w-6 aria-pressed:after:bg-white motion-safe:after:transition-[width,background-color]"}
-                aria-label={`Show slide ${index + 1}: ${slide.label}`}
-                aria-pressed={index === activeSlide}
-                onClick={() => {
-                  setActiveSlide(index);
-                  setPlaying(false);
-                }}
-              />
-            ))}
-            <button
-              type="button"
-              className={slideControlClass}
-              aria-label={playing ? "Pause automatic slides" : "Play automatic slides"}
-              onClick={() => setPlaying((value) => !value)}
-            >
-              {playing ? <Pause size={16} aria-hidden="true" /> : <Play size={16} aria-hidden="true" />}
-            </button>
+              <div className="mt-2.5 flex w-max items-center" role="group" aria-label="Slide controls">
+                {slides.map((slide, index) => (
+                  <button
+                    key={slide.title}
+                    type="button"
+                    className={slideControlClass + " after:h-2 after:w-2 after:rounded-full after:bg-[#798fb4] aria-pressed:after:w-6 aria-pressed:after:bg-[#1b347c] motion-safe:after:transition-[width,background-color]"}
+                    aria-label={`Show slide ${index + 1}: ${slide.label}`}
+                    aria-pressed={index === activeSlide}
+                    onClick={() => setActiveSlide(index)}
+                  />
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <div className="mx-auto w-full min-w-0 max-w-[560px] lg:max-w-none lg:py-8">
+            {appointmentForm}
           </div>
-        </section>
-
-        {appointmentForm}
+        </div>
       </div>
 
       {bookingDetails}

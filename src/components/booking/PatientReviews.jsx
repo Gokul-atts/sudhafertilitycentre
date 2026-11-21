@@ -11,6 +11,12 @@ const patientReviews = reviews.filter(({ name }) => reviewerNames.has(name));
 const ease = [0.22, 1, 0.36, 1];
 const arrowClass =
   "grid size-11 place-items-center rounded-full border border-[#e3ebfa] bg-white text-[#1b347c] hover:bg-[#eaf1ff] motion-safe:transition-colors";
+const reviewCardClass =
+  "group relative col-span-3 col-start-1 row-start-1 grid min-w-0 overflow-hidden rounded-[22px] border border-[#e9edf5] bg-white px-5 py-6 text-center shadow-[0_8px_30px_#18386a12] " +
+  "sm:px-8 md:min-h-[254px] md:px-10 md:py-7 lg:col-span-1 lg:col-start-2 motion-reduce:!transform-none " +
+  "[@media(hover:hover)]:hover:z-10 [@media(hover:hover)]:hover:border-[#cad9f3] [@media(hover:hover)]:hover:shadow-[0_14px_38px_#18386a23] " +
+  "motion-safe:transition-[scale,translate,border-color,box-shadow] motion-safe:duration-300 motion-safe:ease-out " +
+  "motion-safe:[@media(hover:hover)]:hover:[scale:1.025] motion-safe:[@media(hover:hover)]:hover:[translate:0_-3px]";
 
 const reviewAccents = [
   { id: "top-ring", className: "left-[7%] top-6 size-4 rounded-full border border-[#7698de]", drift: 9 },
@@ -132,7 +138,13 @@ export default function PatientReviews() {
           move(event.key === "ArrowLeft" ? -1 : 1);
         }}
       >
-        <div className="col-span-3 col-start-1 row-start-1 grid min-w-0 overflow-hidden rounded-[22px] border border-[#e9edf5] bg-white px-5 py-6 text-center shadow-[0_8px_30px_#18386a12] sm:px-8 md:min-h-[254px] md:px-10 md:py-7 lg:col-span-1 lg:col-start-2">
+        <motion.div
+          className={reviewCardClass}
+          initial={reduceMotion ? false : { y: 12 }}
+          whileInView={{ y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={transition}
+        >
           {patientReviews.map(({ name, quote }, index) => {
             const active = index === slide.index;
             const initials = name.trim().split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
@@ -147,7 +159,7 @@ export default function PatientReviews() {
                 animate={active ? "active" : "inactive"}
               >
                 <figcaption className="flex flex-col items-center gap-2">
-                  <span aria-hidden="true" className="grid size-11 place-items-center rounded-full bg-[#e9f0ff] text-sm font-semibold tracking-wide text-[#1b347c]">
+                  <span aria-hidden="true" className="grid size-11 place-items-center rounded-full bg-[#e9f0ff] text-sm font-semibold tracking-wide text-[#1b347c] motion-safe:transition-transform motion-safe:duration-300 motion-safe:[@media(hover:hover)]:group-hover:scale-110">
                     {initials}
                   </span>
                   <span className="text-base font-semibold capitalize leading-tight text-[#172956]">{name}</span>
@@ -161,12 +173,13 @@ export default function PatientReviews() {
               </motion.figure>
             );
           })}
-        </div>
+        </motion.div>
 
         <motion.button
           type="button"
           aria-label="Previous review"
           className={arrowClass + " col-start-1 row-start-2 lg:row-start-1"}
+          whileHover={reduceMotion ? undefined : { scale: 1.08 }}
           whileTap={reduceMotion ? undefined : { scale: 0.94 }}
           onClick={() => move(-1)}
         >
@@ -193,6 +206,7 @@ export default function PatientReviews() {
           type="button"
           aria-label="Next review"
           className={arrowClass + " col-start-3 row-start-2 lg:row-start-1"}
+          whileHover={reduceMotion ? undefined : { scale: 1.08 }}
           whileTap={reduceMotion ? undefined : { scale: 0.94 }}
           onClick={() => move(1)}
         >
