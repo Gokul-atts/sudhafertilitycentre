@@ -26,10 +26,9 @@ import logo from "@/assets/logo-dark.svg";
 import FertilitySolutions from "@/components/booking/FertilitySolutions";
 import DoctorSlider from "@/components/booking/DoctorSlider";
 import PatientReviews from "@/components/booking/PatientReviews";
+import PatientStoryMarquee from "@/components/booking/PatientStoryMarquee";
 import BookingFaq from "@/components/booking/BookingFaq";
 import useSmoothWheel from "@/components/booking/useSmoothWheel";
-import { MarqueeComponent } from "@/components/marqueeSlider";
-import { Ambattur } from "@/middleware/imagesroute";
 
 const whatsAppUrl = "https://wa.me/917670076006";
 const actionClass = "inline-flex items-center justify-center gap-2 rounded-full bg-[#1b347c] font-medium leading-tight text-white hover:bg-[#12275f]";
@@ -37,6 +36,19 @@ const fieldClass = "w-full min-w-0 min-h-[46px] rounded-lg border border-[#cbd1d
 const errorClass = "m-0 text-[.83rem] leading-[1.35] text-[#b42318]";
 const slideControlClass = "grid size-11 cursor-pointer place-items-center rounded-full text-[#1b347c] hover:bg-[#e0eafb] motion-safe:transition-colors";
 const bannerEase = [0.22, 1, 0.36, 1];
+
+const patientStoryVideoIds = [
+  "iWEGwQd4wvg",
+  "NzhJPHufpzU",
+  "e82CoIgfjk0",
+  "P2U5EPh-vPw",
+  "93y5Wbgv-JE",
+  "IDs0YwhagKo",
+  "f9ZTLwA9u1o",
+  "3vMPqaEFzfw",
+  "llt2lwBjACc",
+  "6jcLO3srNto",
+];
 
 const slides = [
   {
@@ -420,7 +432,7 @@ export default function BookAppointment() {
               From One Wish in Erode to Families Across South India
             </p>
             <p className="text-[clamp(.93rem,1.25vw,1.06rem)] leading-[1.75] text-[#5c6270]">
-              Sudha Fertility Centre began in Erode in 1995 with one simple wish: no couple should ever lose hope of becoming parents. Backed by over 40 years of healthcare excellence, that same promise still guides every consultation we offer today. With 50+ branches across South India, we make advanced, ethical fertility care accessible whether you live in a bustling city or a small town. Every couple receives the same honest guidance, modern lab technology, and compassionate doctors who genuinely care. We know this journey can feel heavy, so we take it one gentle step at a time, designing a personalised plan around your body and walking with you until you hold your little one in your arms.
+              Sudha Fertility Centre in Erode provides comprehensive fertility and reproductive healthcare services for couples seeking support on their parenthood journey. Backed by 40+ years of experience and a network of 50+ branches across India, treatment options include IVF, IUI, and ICSI, with personalised care plans tailored to individual clinical evaluation. Experienced fertility specialists, advanced diagnostics, and modern medical facilities support patients through each stage of care. Dedicated pregnancy care is also available for women. Committed to providing safe, high-quality healthcare through transparent treatment practices and compassionate patient care, Sudha Hospitals build lasting trust with every patient and family.
             </p>
            
             <Link href="/about-us" className={actionClass + " mt-5 min-h-11 px-5 text-sm"}>
@@ -462,12 +474,7 @@ export default function BookAppointment() {
             View YouTube <FaYoutube size={15} aria-hidden="true" />
           </a>
         </motion.div>
-        <MarqueeComponent
-          items={Ambattur.gallery}
-          direction="left"
-          speed="fast"
-          className="mt-4 sm:mt-6 [&_li]:w-[clamp(12rem,22vw,22rem)] [&_img]:aspect-[3/2] [&_img]:object-cover motion-reduce:!overflow-x-auto motion-reduce:[&_ul]:!animate-none"
-        />
+        <PatientStoryMarquee videoIds={patientStoryVideoIds} />
       </section>
 
       <DoctorSlider />
