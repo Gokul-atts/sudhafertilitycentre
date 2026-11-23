@@ -275,7 +275,7 @@ export default function FertilitySolutions() {
           Comprehensive <span className="text-[#1b347c]">Fertility Solutions</span>
         </h2>
         <p className="mx-auto mt-2 max-w-[44ch] text-balance text-[clamp(.97rem,1.6vw,1.25rem)] font-medium leading-snug text-[#29344c]">
-          Gentle, step-by-step care designed around your body, your comfort and your dream of parenthood.
+          Dedicated fertility expertise and compassionate care built around your dream of parenthood. 
         </p>
       </motion.div>
 

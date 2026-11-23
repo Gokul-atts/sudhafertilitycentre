@@ -173,14 +173,22 @@ const Modals = ({ isOpen, onClose }) => {
                 animate={{ opacity: 1, y: 0 }} 
                 transition={{ duration: 0.5 }}
               >
-                Ready to Start Your Journey to <br /> Meet Your Little One?
+                
               </motion.h3>
+              {/* <motion.h3
+                className="font-semibold  mb-4"
+                initial={{ opacity: 0, y: -20 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                transition={{ duration: 0.5 }}
+              >
+                Ready to Start Your Journey to <br /> Meet Your Little One?
+              </motion.h3> */}
               <SlClose onClick={onClose} size={30} className="text-[#061C3D]" />
             </div>
 
-            {/* <Image src={popimage} alt="INF" className="w-full h-auto" /> */}
+            <Image src={popimage} alt="INF" className="w-full h-auto" />
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            {/* <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <input type="hidden" name="formType" value="Appointment" />
 
               <motion.div
@@ -365,7 +373,7 @@ const Modals = ({ isOpen, onClose }) => {
             </form>
             <p className="text-[10px] sm:text-[11px] text-[#173366]/85 text-end">
                     We will reach you within 45 minutes <span className="text-red-500">*</span>
-                </p>
+                </p> */}
 
             <SuccessMessage
               show={successMessage}

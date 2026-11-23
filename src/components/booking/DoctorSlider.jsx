@@ -10,8 +10,8 @@ import dhanabagyam from "@/assets/book-appointment/dhanabakiyamone.webp";
 const doctors = [
   {
     name: "Dr. S. Pradeepa Sudhakar",
-    role: "MBBS, DGO, DNB (OG), MNAMS, FICOG Senior Consultant, IVF & ART Specialist | Vice President, Sudha Hospitals",
-    headline: "",
+    role: "MBBS, DGO, DNB (OG), MNAMS, FICOG",
+    headline: "Senior Consultant, IVF & ART Specialist | Vice President, Sudha Hospitals",
     image: pradeepa,
     imagePosition: "object-[50%_43%]",
     bio: "Behind every Sudha success story is a doctor who listens first. Dr. Pradeepa is a senior IVF and ART specialist, known for her skill in fertility-enhancing procedures and advanced reproductive techniques. Her patients know her for something just as important: patience. She takes time to understand each couple, explains each stage clearly and never lets anyone feel rushed.",

@@ -311,7 +311,7 @@ export default function BookAppointment() {
         Why Choose Us?
       </h2>
       <p className="mx-auto mt-3 max-w-[62ch] font-[family-name:var(--font-inter)] text-[clamp(.9rem,1.25vw,1rem)] leading-relaxed text-[#5c6270]">
-        Because the right fertility centre gives you more than treatment. It gives you hope, honesty and a hand to hold.
+        Where Advanced Fertility Care Meets Genuine Compassion 
       </p>
 
       <ul className="mt-6 grid grid-cols-2 gap-3 md:mt-8 md:grid-cols-5 lg:gap-4">
@@ -363,8 +363,8 @@ export default function BookAppointment() {
         transition={{ duration: 3.8, ease: "easeInOut" }}
         viewport={{ amount: 0.3 }}
       />
-      <h2 id={titleId} className="max-w-[36ch] text-balance text-[clamp(1.12rem,2.1vw,1.75rem)] font-semibold leading-tight tracking-tight">
-        Your Little One Is Worth Every Hope. Let Us Help You Bring Them Home.
+      <h2 id={titleId} className=" text-balance text-[clamp(1.12rem,2.1vw,1.55rem)] font-semibold leading-tight tracking-tight">
+        Your journey to parenthood starts with one simple conversation.
       </h2>
       <a
         href="#contact-now"
@@ -420,14 +420,9 @@ export default function BookAppointment() {
               From One Wish in Erode to Families Across South India
             </p>
             <p className="text-[clamp(.93rem,1.25vw,1.06rem)] leading-[1.75] text-[#5c6270]">
-              Sudha Fertility Centre began in Erode in 1995 with one simple wish: no childless couple should lose hope of becoming parents. That wish still guides everything we do today.
+              Sudha Fertility Centre began in Erode in 1995 with one simple wish: no couple should ever lose hope of becoming parents. Backed by over 40 years of healthcare excellence, that same promise still guides every consultation we offer today. With 50+ branches across South India, we make advanced, ethical fertility care accessible whether you live in a bustling city or a small town. Every couple receives the same honest guidance, modern lab technology, and compassionate doctors who genuinely care. We know this journey can feel heavy, so we take it one gentle step at a time, designing a personalised plan around your body and walking with you until you hold your little one in your arms.
             </p>
-            <p className="text-[clamp(.93rem,1.25vw,1.06rem)] leading-[1.75] text-[#5c6270]">
-              Today, we care for families through 40+ branches across South India, Bangladesh and Sri Lanka. Whether you live in a big city or a small town, you receive the same honest advice, the same advanced treatment and the same warm care.
-            </p>
-            <p className="text-[clamp(.93rem,1.25vw,1.06rem)] leading-[1.75] text-[#5c6270]">
-              We know this journey can feel heavy. So we take it one gentle step at a time and plan treatment that fits you. Let us walk with you to the day you hold your little one.
-            </p>
+           
             <Link href="/about-us" className={actionClass + " mt-5 min-h-11 px-5 text-sm"}>
               Know More <ArrowRight size={16} aria-hidden="true" />
             </Link>
