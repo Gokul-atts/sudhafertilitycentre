@@ -79,7 +79,7 @@ const treatments = [
     icon: Snowflake,
     iconClass: "bg-sky-50 text-sky-700",
     image: fiveImage,
-    description: "Not ready for a baby today? Protect your chances for tomorrow. Eggs or sperm can be safely frozen and stored until the time is right, whether for career plans, a health treatment or a personal choice.",
+    description: "Thinking about preserving your fertility for later? Protect your chances for tomorrow. Eggs or sperm can be safely frozen and stored until the time is right, whether for career plans, a health treatment or a personal choice.",
     steps: ["Preservation Counselling & Planning", "Egg Freezing", "Sperm Freezing", "Guidance on the Right Time to Freeze","Safe Storage & Use When You Are Ready"],
   },
   {
@@ -89,7 +89,7 @@ const treatments = [
     icon: RiSurgicalMaskLine,
     iconClass: "bg-emerald-50 text-emerald-700",
     image: sixImage,
-    description: "Sometimes a small physical block, fibroid, or polyp stands in the way of pregnancy. Using a thin camera and tiny keyhole instruments, our specialists gently examine and treat issues inside the womb or pelvis—helping you heal faster with minimal discomfort.",
+    description: "Sometimes a small physical block, fibroid, or polyp stands in the way of pregnancy. Using a thin camera and tiny keyhole instruments, our specialists gently examine and treat issues inside the womb or pelvis, helping you heal faster with minimal discomfort.",
     steps: ["Gentle Keyhole Evaluation of Womb & Tubes", "Removal of Fibroids, Polyps or Cysts", "Endometriosis & Blocked Tube Care", "Minimal Scarring & Quick Recovery","Personalised Post-Procedure Fertility Plan"],
   },
   {
