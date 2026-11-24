@@ -105,7 +105,7 @@ const revealClass = "motion-reduce:!opacity-100 motion-reduce:!transform-none";
 
 const fertilityBenefits = [
   { label: "Experienced Fertility Specialists", icon: Stethoscope },
-  { label: "State of the art feacility", icon: Hospital },
+  { label: "State of the art facility", icon: Hospital },
   { label: "Transparant Pricing", icon: ReceiptIndianRupee },
   { label: "Personalised care for all", icon: HandHeart },
   { label: "Counselling That Heals the Heart", icon: MessagesSquare },
