@@ -3,6 +3,8 @@ import { appointmentSchema } from "@/schemas/appointmentSchema";
 import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 import { validatePhoneNumber } from "@/lib/validators/phoneValidator";
 
+const bookingSheetUrl = "https://script.google.com/macros/s/AKfycby3vKUfKzwY_wptmFm-roe9AxF2ugMhZ0c07izl7WME2BNqLhKvGtgq7vtbrCdxWPRC7g/exec";
+
 const bookingSchema = z.object({
   name: appointmentSchema.shape.name,
   mobile: appointmentSchema.shape.mobile,
@@ -50,16 +52,8 @@ export default async function handler(req, res) {
     });
   }
 
-  const sheetUrl =
-    process.env.BOOKING_SHEET_SCRIPT_URL?.trim() ||
-    process.env.SHEET_SCRIPT_URL_1?.trim() ||
-    process.env.SHEET_SCRIPT_URL_2?.trim();
-  if (!sheetUrl) {
-    return res.status(503).json({ success: false, message: "Booking is temporarily unavailable. Please try again later." });
-  }
-
   try {
-    const response = await fetch(sheetUrl, {
+    const response = await fetch(bookingSheetUrl, {
       method: "POST",
       body: new URLSearchParams({ ...parsed.data, formType: "landing page" }),
       signal: AbortSignal.timeout(10_000),

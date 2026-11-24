@@ -589,7 +589,7 @@ export default function BookAppointment() {
           <Image className="block h-auto w-[clamp(110px,10vw,160px)]" src={logo} alt="Sudha Fertility Centre" />
         </Link>
         <a className={actionClass + " min-h-11 whitespace-nowrap px-[clamp(10px,1.4vw,20px)] py-1.5 text-[clamp(.72rem,1.1vw,.98rem)] max-sm:text-sm min-[701px]:min-h-9"} href={bookingPhoneHref}>
-          +91 767 007 6006
+          +91 76 7007 6006
         </a>
       </div>
 

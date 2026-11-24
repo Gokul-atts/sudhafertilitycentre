@@ -117,9 +117,9 @@ export default function BranchesDirectory() {
   return (
     <div className="mx-auto w-full max-w-6xl py-6 md:py-12">
       <p className="mb-1 text-sm text-neutral-500">{branches.length} branches</p>
-      <h1 className={`mb-5 text-xl font-semibold md:text-3xl ${BRAND_NAVY} md:mb-8`}>
+      <h3 className={`mb-5 text-xl font-semibold md:text-3xl ${BRAND_NAVY} md:mb-8`}>
         Find your nearest branch
-      </h1>
+      </h3>
 
       {/* <div className="mb-6 rounded-lg border border-neutral-200 bg-neutral-50 p-4">
         {!userCoords && !pinMode && (
