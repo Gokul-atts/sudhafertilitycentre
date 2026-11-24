@@ -68,7 +68,7 @@ export default function DoctorSlider() {
           viewport={{ once: true, amount: 0.5 }}
           transition={transition}
         >
-          <p className="mb-2 text-xs font-semibold uppercase leading-none tracking-[.18em] text-[#476294]">Our Doctors</p>
+          <p className="mb-2 text-xs font-semibold uppercase leading-none tracking-[.18em] text-[#476294]">Our Specialist</p>
           <h2 id="doctor-slider-title" className="text-[clamp(1.55rem,3.2vw,2.35rem)] font-semibold leading-tight tracking-tight text-[#181d29]">
             Four Decades of Compassionate <span className="text-[#1b347c]">Care in Parenthood</span>
           </h2>

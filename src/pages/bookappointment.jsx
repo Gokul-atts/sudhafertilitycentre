@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Award, CalendarDays, Compass, HandHeart, HeartPulse, Microscope, Phone, ReceiptIndianRupee } from "lucide-react";
+import { Ambulance, ArrowRight, Award, CalendarDays, HandHeart, Hospital, MessagesSquare, Phone, ReceiptIndianRupee, Stethoscope } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { FaWhatsapp, FaYoutube } from "react-icons/fa6";
@@ -12,11 +12,6 @@ import familyPhoto from "@/assets/book-appointment/hero-family-desktop.webp";
 import carePhoto from "@/assets/book-appointment/hero-consultation-desktop.webp";
 import motherAndBabyPhoto from "@/assets/book-appointment/hero-mother-and-baby.webp";
 import sudhaBuilding from "@/assets/book-appointment/hospitals.webp";
-import wOne from "@/assets/book-appointment/w-1.svg";
-import wTwo from "@/assets/book-appointment/w-2.svg";
-import wThree from "@/assets/book-appointment/w-3.svg";
-import wFour from "@/assets/book-appointment/w-4.svg";
-import wFive from "@/assets/book-appointment/w-5.svg";
 
 
 
@@ -31,9 +26,12 @@ import BookingFaq from "@/components/booking/BookingFaq";
 import useSmoothWheel from "@/components/booking/useSmoothWheel";
 
 const whatsAppUrl = "https://wa.me/917670076006";
+const bookingPhoneHref = "tel:+917670076006";
 const actionClass = "inline-flex items-center justify-center gap-2 rounded-full bg-[#1b347c] font-medium leading-tight text-white hover:bg-[#12275f]";
 const fieldClass = "w-full min-w-0 min-h-[46px] rounded-lg border border-[#cbd1dd] bg-white px-2.5 py-2 text-base text-[#181d29] placeholder:text-[#626979] invalid:[&:is(select)]:text-[#626979] aria-[invalid=true]:border-[#b42318] min-[701px]:min-h-[43px] min-[701px]:text-[.93rem]";
-const errorClass = "m-0 text-[.83rem] leading-[1.35] text-[#b42318]";
+const errorClass = "m-0 text-[.83rem] leading-[1.35] text-[#b42318] max-sm:text-sm";
+const formLabelClass = "grid min-w-0 gap-1 text-[clamp(.78rem,1vw,.96rem)] font-medium max-sm:text-base";
+const formHintClass = "text-[clamp(.75rem,.98vw,.92rem)] leading-[1.45] text-[#515b70] max-sm:text-sm";
 const slideControlClass = "grid size-11 cursor-pointer place-items-center rounded-full text-[#1b347c] hover:bg-[#e0eafb] motion-safe:transition-colors";
 const bannerEase = [0.22, 1, 0.36, 1];
 
@@ -90,7 +88,7 @@ const bookingAwards = [
 ];
 
 const contactActionClass =
-  "flex min-h-12 items-center justify-center gap-2 px-3 py-2.5 text-center text-sm font-medium leading-tight hover:bg-white/15 focus-visible:outline-white focus-visible:outline-offset-[-3px] md:flex-col md:gap-1.5 md:text-xs";
+  "flex min-h-12 items-center justify-center gap-2 px-3 py-2.5 text-center text-sm font-medium leading-tight hover:bg-white/15 focus-visible:outline-white focus-visible:outline-offset-[-3px] max-sm:text-[.9375rem] md:flex-col md:gap-1.5 md:text-xs";
 
 const revealGroup = {
   hidden: {},
@@ -106,13 +104,12 @@ const revealViewport = { once: true, amount: 0.15 };
 const revealClass = "motion-reduce:!opacity-100 motion-reduce:!transform-none";
 
 const fertilityBenefits = [
-  { label: "Experienced Fertility Specialists", icon: wOne },
-  { label: "Advanced Embryology Lab", icon: wTwo },
-  { label: "Transparent Treatment Pricing", icon: wThree },
-  { label: "Affordable Care Within Reach", icon: wFour },
-  { label: "Counselling That Heals the Heart", icon: wFive },
-  // { label: "Trusted Across South India", icon: Compass },
-  // { label: "Support Beyond Treatment", icon: Compass },
+  { label: "Experienced Fertility Specialists", icon: Stethoscope },
+  { label: "State of the art feacility", icon: Hospital },
+  { label: "Transparant Pricing", icon: ReceiptIndianRupee },
+  { label: "Personalised care for all", icon: HandHeart },
+  { label: "Counselling That Heals the Heart", icon: MessagesSquare },
+  { label: "24/7 Emergency Support", icon: Ambulance },
 ];
 
 const cellDrift = {
@@ -140,8 +137,11 @@ export default function BookAppointment() {
   const reduceMotion = useReducedMotion();
 
   const [activeSlide, setActiveSlide] = useState(0);
+  const [isCarouselHovered, setIsCarouselHovered] = useState(false);
+  const [isCarouselFocused, setIsCarouselFocused] = useState(false);
+  const shouldRotate = !reduceMotion && !isCarouselHovered && !isCarouselFocused;
 
-  const detailsRef = useRef(null);
+  const heroRef = useRef(null);
   const [showActions, setShowActions] = useState(false);
 
   const router = useRouter();
@@ -154,11 +154,20 @@ export default function BookAppointment() {
   } = useForm({ defaultValues: { location: "" } });
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => setShowActions(entry.isIntersecting),
-      { rootMargin: "0px 0px -20% 0px" },
-    );
-    observer.observe(detailsRef.current);
+    if (!shouldRotate) return;
+
+    const timer = window.setInterval(() => {
+      if (!document.hidden) setActiveSlide((activeSlide + 1) % slides.length);
+    }, 6000);
+
+    return () => window.clearInterval(timer);
+  }, [activeSlide, shouldRotate]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setShowActions(!entry.isIntersecting && entry.boundingClientRect.bottom <= 0);
+    });
+    observer.observe(heroRef.current);
     return () => observer.disconnect();
   }, []);
 
@@ -201,13 +210,13 @@ export default function BookAppointment() {
 
   const appointmentForm = (
     <section className="relative z-10 min-w-0 scroll-mt-5 rounded-[clamp(17px,1.8vw,28px)] border border-[#e2e7f0] bg-white p-5 shadow-[0_14px_40px_#12275f24] min-[701px]:border-0 min-[701px]:p-[clamp(17px,1.75vw,30px)]" id="contact-now" aria-labelledby="appointment-title" tabIndex={-1}>
-      <h2 id="appointment-title" className="m-0 text-[clamp(1.25rem,5.4vw,1.7rem)] font-bold leading-[1.18] tracking-tight min-[701px]:text-[clamp(1.18rem,1.85vw,1.8rem)]">
+      <h2 id="appointment-title" className="m-0 text-[clamp(1.25rem,5.4vw,1.7rem)] font-bold leading-[1.18] tracking-tight max-sm:text-[clamp(1.5rem,5.6vw,1.85rem)] min-[701px]:text-[clamp(1.18rem,1.85vw,1.8rem)]">
         Book Your <span className="text-[#1b347c]">Free Appointment</span>
       </h2>
-      <p className="mb-3.5 mt-1.5 text-[clamp(.75rem,.98vw,.92rem)] leading-[1.45] text-[#515b70]">Talk to a fertility specialist. Request a callback below.</p>
+      <p className={formHintClass + " mb-3.5 mt-1.5"}>Talk to a fertility specialist. Request a callback below.</p>
 
       <form className="grid gap-[clamp(9px,1vw,15px)]" onSubmit={handleSubmit(submitAppointment)} noValidate aria-busy={isSubmitting}>
-        <div className="grid min-w-0 gap-1 text-[clamp(.78rem,1vw,.96rem)] font-medium">
+        <div className={formLabelClass}>
           <label htmlFor="appointment-name">Name</label>
           <input
             className={fieldClass}
@@ -225,7 +234,7 @@ export default function BookAppointment() {
           {errors.name && <p id="appointment-name-error" className={errorClass}>{errors.name.message}</p>}
         </div>
 
-        <div className="grid min-w-0 gap-1 text-[clamp(.78rem,1vw,.96rem)] font-medium">
+        <div className={formLabelClass}>
           <label htmlFor="appointment-mobile">WhatsApp number</label>
           <input
             className={fieldClass}
@@ -244,7 +253,7 @@ export default function BookAppointment() {
           {errors.mobile && <p id="appointment-mobile-error" className={errorClass}>{errors.mobile.message}</p>}
         </div>
 
-        <div className="grid min-w-0 gap-1 text-[clamp(.78rem,1vw,.96rem)] font-medium">
+        <div className={formLabelClass}>
           <label htmlFor="appointment-location">Location</label>
           <input
             className={fieldClass}
@@ -263,9 +272,9 @@ export default function BookAppointment() {
           {errors.location && <p id="appointment-location-error" className={errorClass}>{errors.location.message}</p>}
         </div>
 
-        <p className="m-0 text-[clamp(.75rem,.98vw,.92rem)] leading-[1.45] text-[#515b70]">Our fertility team will call you on this number.</p>
+        <p className={formHintClass + " m-0"}>Our fertility team will call you on this number.</p>
         {submissionError && <p className={errorClass} role="alert">{submissionError}</p>}
-        <button className={actionClass + " min-h-11 w-full px-[13px] py-[9px] text-[clamp(.76rem,1.02vw,.98rem)] disabled:cursor-not-allowed disabled:opacity-65 disabled:hover:bg-[#1b347c]"} type="submit" disabled={isSubmitting}>
+        <button className={actionClass + " min-h-11 w-full px-[13px] py-[9px] text-[clamp(.76rem,1.02vw,.98rem)] disabled:cursor-not-allowed disabled:opacity-65 disabled:hover:bg-[#1b347c] max-sm:text-base"} type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Submitting…" : "Take Your Free Step Toward Parenthood"}
           <ArrowRight className="shrink-0" size={17} aria-hidden="true" />
         </button>
@@ -320,21 +329,21 @@ export default function BookAppointment() {
       {fertilityBackdrop}
 
       <h2 id="why-choose-us" className="text-[clamp(1.55rem,3vw,2.3rem)] font-semibold leading-tight tracking-tight text-[#181d29]">
-        Why Choose Us?
+        Why Lakhs of Families Trust Sudha Hospitals
       </h2>
-      <p className="mx-auto mt-3 max-w-[62ch] font-[family-name:var(--font-inter)] text-[clamp(.9rem,1.25vw,1rem)] leading-relaxed text-[#5c6270]">
+      <p className="mx-auto mt-3 max-w-[62ch] font-[family-name:var(--font-inter)] text-[clamp(.9rem,1.25vw,1rem)] leading-relaxed text-[#5c6270] max-sm:text-base">
         Where Advanced Fertility Care Meets Genuine Compassion 
       </p>
 
-      <ul className="mt-6 grid grid-cols-2 gap-3 md:mt-8 md:grid-cols-5 lg:gap-4">
-        {fertilityBenefits.map(({ label, icon }, index) => (
+      <ul className="mt-6 grid auto-rows-fr grid-cols-2 gap-3 sm:grid-cols-3 md:mt-8 lg:gap-4 xl:grid-cols-6">
+        {fertilityBenefits.map(({ label, icon: Icon }, index) => (
           <motion.li
             key={label}
             initial={reduceMotion ? false : { opacity: 0.55, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.25 }}
             transition={{ duration: reduceMotion ? 0 : 0.44, delay: reduceMotion ? 0 : index * 0.055, ease: bannerEase }}
-            className="group motion-reduce:!opacity-100 motion-reduce:!transform-none flex min-h-[132px] min-w-0 flex-col items-center justify-center gap-3 rounded-xl border border-[#e6ebf3] bg-white px-2.5 py-4 shadow-[0_4px_16px_#17336608] last:col-span-2 last:w-[calc(50%_-_0.375rem)] last:justify-self-center md:last:col-span-1 md:last:w-full lg:min-h-[152px]"
+            className="group flex min-h-[132px] min-w-0 flex-col items-center justify-center gap-3 rounded-xl border border-[#e6ebf3] bg-white px-2.5 py-4 shadow-[0_4px_16px_#17336608] motion-reduce:!opacity-100 motion-reduce:!transform-none lg:min-h-[152px]"
           >
             <motion.span
               className="grid size-12 shrink-0 place-items-center rounded-full border border-[#dfe8fa] bg-[#f7faff] text-[#1b347c] motion-reduce:!transform-none lg:size-14"
@@ -344,13 +353,11 @@ export default function BookAppointment() {
               viewport={{ once: true, amount: 0.5 }}
               transition={{ type: "spring", stiffness: 230, damping: 16, delay: index * 0.07 }}
             >
-              <Image
-                src={icon}
-                alt=""
+              <Icon
                 className="size-6 motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:rotate-[-8deg] lg:size-7"
               />
             </motion.span>
-            <p className="max-w-[min(18ch,100%)] text-balance break-words text-[.9375rem] font-semibold leading-snug text-[#17213b] lg:text-lg">{label}</p>
+            <p className="max-w-[min(18ch,100%)] text-balance break-words text-[.9375rem] font-semibold leading-snug text-[#17213b] max-sm:text-base lg:text-lg">{label}</p>
           </motion.li>
         ))}
       </ul>
@@ -375,12 +382,12 @@ export default function BookAppointment() {
         transition={{ duration: 3.8, ease: "easeInOut" }}
         viewport={{ amount: 0.3 }}
       />
-      <h2 id={titleId} className=" text-balance text-[clamp(1.12rem,2.1vw,1.55rem)] font-semibold leading-tight tracking-tight">
+      <h2 id={titleId} className="text-balance text-[clamp(1.12rem,2.1vw,1.55rem)] font-semibold leading-tight tracking-tight max-sm:text-xl">
         Your journey to parenthood starts with one simple conversation.
       </h2>
       <a
         href="#contact-now"
-        className="group inline-flex min-h-11 shrink-0 items-center justify-center gap-2.5 rounded-full bg-white px-4 py-2 text-center text-[.82rem] font-semibold leading-tight text-[#1b347c] hover:bg-[#ecf3ff] motion-safe:transition-colors sm:px-5"
+        className="group inline-flex min-h-11 shrink-0 items-center justify-center gap-2.5 rounded-full bg-white px-4 py-2 text-center text-[.82rem] font-semibold leading-tight text-[#1b347c] hover:bg-[#ecf3ff] motion-safe:transition-colors max-sm:text-sm sm:px-5"
       >
         Book Your Free Appointment
         <ArrowRight size={16} aria-hidden="true" className="shrink-0 motion-safe:transition-transform motion-safe:group-hover:translate-x-0.5" />
@@ -389,7 +396,7 @@ export default function BookAppointment() {
   ));
 
   const bookingDetails = (
-    <div ref={detailsRef} className="pb-[calc(4.5rem+env(safe-area-inset-bottom))] md:pb-0">
+    <div className="pb-[calc(4.5rem+env(safe-area-inset-bottom))] md:pb-0">
       <div className="mx-auto w-[95%] max-w-[1520px] px-1 pt-9 sm:pt-12 lg:pt-16">
         <motion.section
           aria-labelledby="achievements-title"
@@ -409,7 +416,7 @@ export default function BookAppointment() {
           <dl className="mx-auto mt-6 grid max-w-[1320px] grid-cols-2 gap-3 sm:gap-4 md:mt-8 md:grid-cols-4 lg:gap-6">
             {achievements.map(({ figure, label }) => (
               <motion.div key={label} variants={revealItem} className={revealClass + " flex min-w-0 flex-col items-center justify-center gap-1.5 rounded-xl border border-[#e8ebf0] px-3 py-4 sm:px-4 sm:py-6 lg:py-8"}>
-                <dt className="order-2 text-[clamp(.78rem,1.4vw,1.05rem)] leading-snug text-[#5c6270]">{label}</dt>
+                <dt className="order-2 text-[clamp(.78rem,1.4vw,1.05rem)] leading-snug text-[#5c6270] max-sm:text-sm">{label}</dt>
                 <dd className="order-1 text-[clamp(1.5rem,3vw,2.45rem)] font-bold leading-none text-[#1b347c]">{figure}</dd>
               </motion.div>
             ))}
@@ -431,7 +438,7 @@ export default function BookAppointment() {
             <p className="mb-3 mt-2 text-[clamp(1rem,1.7vw,1.3rem)] font-medium leading-snug text-black md:mb-4">
               From One Wish in Erode to Families Across South India
             </p>
-            <p className="text-[clamp(.93rem,1.25vw,1.06rem)] leading-[1.75] text-[#5c6270]">
+            <p className="text-[clamp(.93rem,1.25vw,1.06rem)] leading-[1.75] text-[#5c6270] max-sm:text-base">
               Sudha Fertility Centre in Erode provides comprehensive fertility and reproductive healthcare services for couples seeking support on their parenthood journey. Backed by 40+ years of experience and a network of 50+ branches across India, treatment options include IVF, IUI, and ICSI, with personalised care plans tailored to individual clinical evaluation. Experienced fertility specialists, advanced diagnostics, and modern medical facilities support patients through each stage of care. Dedicated pregnancy care is also available for women. Committed to providing safe, high-quality healthcare through transparent treatment practices and compassionate patient care, Sudha Hospitals build lasting trust with every patient and family.
             </p>
            
@@ -559,7 +566,7 @@ export default function BookAppointment() {
             exit={reduceMotion ? undefined : { opacity: 0, y: 12 }}
             transition={{ duration: reduceMotion ? 0 : 0.26, ease: "easeOut" }}
             aria-label="Quick appointment actions"
-            className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 divide-x divide-white/20 bg-[#1b347c] pb-[env(safe-area-inset-bottom)] text-white shadow-[0_-4px_22px_#12275f33] md:inset-x-auto md:bottom-auto md:right-3 md:top-[22vh] md:w-[78px] md:grid-cols-1 md:divide-x-0 md:divide-y md:overflow-hidden md:rounded-xl md:pb-0 md:shadow-[0_6px_20px_#12275f33] xl:right-5 xl:w-[86px]"
+            className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 divide-x divide-white/20 bg-[#1b347c] pb-[env(safe-area-inset-bottom)] text-white shadow-[0_-4px_22px_#12275f33] md:inset-x-auto md:bottom-auto md:right-3 md:top-[22vh] md:w-[78px] md:grid-cols-1 md:divide-x-0 md:divide-y md:overflow-hidden md:rounded-xl md:pb-0 md:shadow-[0_6px_20px_#12275f33] xl:right-0 xl:w-[86px]"
           >
             <a href="#contact-now" className={contactActionClass}>
               <CalendarDays size={19} className="shrink-0" aria-hidden="true" />
@@ -576,24 +583,103 @@ export default function BookAppointment() {
   );
 
   return (
-    <div className="min-h-[100svh] bg-white text-[#181d29] motion-safe:[html:has(&)]:scroll-smooth motion-reduce:[html:has(&)]:!scroll-auto max-md:[html:has(&)]:scroll-pb-[calc(3.75rem+env(safe-area-inset-bottom))] [&_:is(input,select,button,a):focus-visible]:outline [&_:is(input,select,button,a):focus-visible]:outline-2 [&_:is(input,select,button,a):focus-visible]:outline-offset-2 [&_:is(input,select,button,a):focus-visible]:outline-[#2682de]">
-      <div className="mx-auto flex min-h-14 w-[95%] max-w-[1520px] items-center justify-between gap-3 min-[701px]:min-h-[clamp(48px,5vw,75px)]">
+    <div className="min-h-[100svh] bg-white text-[#181d29] [--booking-header-height:clamp(48px,5vw,75px)] motion-safe:[html:has(&)]:scroll-smooth motion-reduce:[html:has(&)]:!scroll-auto max-md:[html:has(&)]:scroll-pb-[calc(3.75rem+env(safe-area-inset-bottom))] [&_:is(input,select,button,a):focus-visible]:outline [&_:is(input,select,button,a):focus-visible]:outline-2 [&_:is(input,select,button,a):focus-visible]:outline-offset-2 [&_:is(input,select,button,a):focus-visible]:outline-[#2682de]">
+      <div className="mx-auto flex min-h-14 w-[95%] max-w-[1520px] items-center justify-between gap-3 min-[701px]:min-h-[var(--booking-header-height)]">
         <Link href="/" aria-label="Sudha Fertility Centre home">
-          <Image className="block h-auto w-[clamp(90px,9vw,138px)]" src={logo} alt="Sudha Fertility Centre" />
+          <Image className="block h-auto w-[clamp(110px,10vw,160px)]" src={logo} alt="Sudha Fertility Centre" />
         </Link>
-        <a className={actionClass + " min-h-11 whitespace-nowrap px-[clamp(10px,1.4vw,20px)] py-1.5 text-[clamp(.72rem,1.1vw,.98rem)] min-[701px]:min-h-9"} href="tel:+917670076006">
-          <Phone size={15} aria-hidden="true" /> +91 767-007-6006
+        <a className={actionClass + " min-h-11 whitespace-nowrap px-[clamp(10px,1.4vw,20px)] py-1.5 text-[clamp(.72rem,1.1vw,.98rem)] max-sm:text-sm min-[701px]:min-h-9"} href={bookingPhoneHref}>
+          +91 767 007 6006
         </a>
       </div>
 
-      <div className="overflow-hidden border-y border-[#e6ecf3] bg-[#f4f5f2] bg-[radial-gradient(ellipse_at_56%_75%,#e0eaf4,transparent_65%)]">
-        <div className="mx-auto grid max-w-[1480px] min-w-0 items-center gap-4 px-5 pb-6 sm:gap-6 sm:px-8 lg:min-h-[clamp(460px,37vw,575px)] lg:grid-cols-[minmax(0,1fr)_minmax(280px,29%)] lg:px-10 lg:pb-0 xl:gap-8 xl:px-12">
+      <div ref={heroRef} className="overflow-hidden border-y border-[#e6ecf3] bg-[#f4f5f2] bg-[radial-gradient(ellipse_at_56%_75%,#e0eaf4,transparent_65%)]">
+        <div className="mx-auto grid max-w-[1480px] min-w-0 items-center gap-4 px-5 pb-6 pt-5 sm:gap-6 sm:px-8 sm:pt-0 lg:min-h-[max(clamp(460px,37vw,575px),calc(100svh-var(--booking-header-height)-2px))] lg:grid-cols-[minmax(0,1fr)_minmax(280px,29%)] lg:px-10 lg:pb-0 xl:gap-8 xl:px-12">
+          <div className="mx-auto w-full min-w-0 max-w-[560px] sm:row-start-2 lg:col-start-2 lg:row-start-1 lg:max-w-none lg:py-8">
+            {appointmentForm}
+          </div>
+
           <section
-            className="grid min-w-0 items-center sm:grid-cols-[minmax(0,0.94fr)_minmax(0,1.06fr)] sm:gap-5 lg:self-stretch"
+            className="grid min-w-0 items-center gap-4 sm:row-start-1 sm:grid-cols-[minmax(0,0.94fr)_minmax(0,1.06fr)] sm:gap-5 lg:col-start-1 lg:self-stretch"
             aria-label="Fertility care highlights"
             aria-roledescription="carousel"
+            onPointerEnter={(event) => {
+              if (event.pointerType === "mouse") setIsCarouselHovered(true);
+            }}
+            onPointerLeave={() => setIsCarouselHovered(false)}
+            onFocusCapture={(event) => setIsCarouselFocused(event.target.matches(":focus-visible"))}
+            onBlurCapture={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget)) setIsCarouselFocused(false);
+            }}
           >
-            <div className="relative isolate mx-auto h-[clamp(234px,75vw,350px)] w-full max-w-[500px] self-end [mask-image:linear-gradient(#000_88%,transparent)] sm:col-start-2 sm:row-start-1 sm:h-[clamp(300px,48vw,450px)] lg:h-[clamp(330px,29vw,440px)] lg:[mask-image:none]">
+            <div className="min-w-0 pt-2 sm:col-start-1 sm:row-start-1 sm:py-9 lg:py-12">
+              <motion.div
+                className="grid motion-reduce:!transform-none motion-reduce:!opacity-100"
+                aria-live={shouldRotate ? "off" : "polite"}
+                initial={reduceMotion ? false : { y: 9 }}
+                animate={{ y: 0 }}
+                transition={{ duration: reduceMotion ? 0 : 0.75, ease: bannerEase }}
+              >
+                {slides.map((slide, index) => (
+                  <motion.div
+                    className="col-start-1 row-start-1 min-w-0 max-w-[36rem] self-end"
+                    key={slide.title}
+                    data-active={index === activeSlide}
+                    aria-hidden={index !== activeSlide}
+                    variants={copyVariants}
+                    initial={false}
+                    animate={index === activeSlide ? "active" : "inactive"}
+                  >
+                    <motion.p
+                      variants={textVariants}
+                      className="mb-4 flex w-fit max-w-full items-center gap-2 text-base font-bold leading-snug text-[#1b347c] xl:text-lg"
+                    >
+                      <Award className="shrink-0 text-[#9a6415]" size={17} aria-hidden="true" />
+                      {slide.label}
+                    </motion.p>
+                    <motion.h1
+                      aria-label={slide.title + " " + slide.highlight}
+                      variants={textVariants}
+                      className={`mb-4 font-outfit font-semibold leading-[1.08] tracking-[-.035em] text-[#132950] ${index === 0
+                        ? "text-[clamp(1.75rem,5.6vw,2.25rem)] sm:text-[clamp(1.6rem,2.65vw,2.7rem)]"
+                        : "text-[clamp(2rem,6.2vw,2.75rem)] sm:text-[clamp(1.9rem,3.25vw,3.25rem)]"}`}
+                    >
+                      {slide.title}{" "}
+                      <span className="block text-[#24549d]">{slide.highlight}</span>
+                    </motion.h1>
+                    <motion.p
+                      variants={textVariants}
+                      className="max-w-[40ch] font-[family-name:var(--font-inter)] text-[clamp(.94rem,1.25vw,1.125rem)] leading-relaxed text-[#3d4d67] max-sm:text-base"
+                    >
+                      {slide.description}
+                    </motion.p>
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2">
+              
+                <a className="inline-flex min-h-11 items-center gap-1.5 rounded-lg px-2 text-sm font-semibold text-[#186247] hover:bg-[#e3efe9] max-sm:text-base" href={whatsAppUrl}>
+                  <FaWhatsapp size={18} aria-hidden="true" />
+                  WhatsApp
+                </a>
+              </div>
+
+              <div className="mt-2.5 flex w-max items-center" role="group" aria-label="Slide controls">
+                {slides.map((slide, index) => (
+                  <button
+                    key={slide.title}
+                    type="button"
+                    className={slideControlClass + " after:h-2 after:w-2 after:rounded-full after:bg-[#798fb4] aria-pressed:after:w-6 aria-pressed:after:bg-[#1b347c] motion-safe:after:transition-[width,background-color]"}
+                    aria-label={`Show slide ${index + 1}: ${slide.label}`}
+                    aria-pressed={index === activeSlide}
+                    onClick={() => setActiveSlide(index)}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div className="relative isolate mx-auto h-[clamp(234px,75vw,350px)] w-full max-w-[500px] self-end [mask-image:linear-gradient(#000_88%,transparent)] sm:col-start-2 sm:row-start-1 sm:h-[clamp(300px,48vw,450px)] lg:h-[clamp(330px,29vw,440px)] lg:self-center lg:[mask-image:linear-gradient(#000_84%,transparent)]">
               {slides.map((slide, index) => {
                 const isActive = index === activeSlide;
                 const isLandscape = slide.image.width > slide.image.height;
@@ -622,85 +708,19 @@ export default function BookAppointment() {
                 );
               })}
             </div>
-
-            <div className="min-w-0 pt-2 sm:col-start-1 sm:row-start-1 sm:py-9 lg:py-12">
-              <motion.div
-                className="grid motion-reduce:!transform-none motion-reduce:!opacity-100"
-                aria-live="polite"
-                initial={reduceMotion ? false : { y: 9 }}
-                animate={{ y: 0 }}
-                transition={{ duration: reduceMotion ? 0 : 0.75, ease: bannerEase }}
-              >
-                {slides.map((slide, index) => (
-                  <motion.div
-                    className="col-start-1 row-start-1 min-w-0 max-w-[36rem] self-end"
-                    key={slide.title}
-                    data-active={index === activeSlide}
-                    aria-hidden={index !== activeSlide}
-                    variants={copyVariants}
-                    initial={false}
-                    animate={index === activeSlide ? "active" : "inactive"}
-                  >
-                    <motion.p
-                      variants={textVariants}
-                      className="mb-4 flex w-fit max-w-full items-center gap-2 text-base font-bold leading-snug text-[#1b347c] xl:text-lg"
-                    >
-                      <Award className="shrink-0 text-[#9a6415]" size={17} aria-hidden="true" />
-                      {slide.label}
-                    </motion.p>
-                    <motion.h1
-                      aria-label={slide.title + " " + slide.highlight}
-                      variants={textVariants}
-                      className={`mb-4 font-outfit font-semibold leading-[1.08] tracking-[-.035em] text-[#132950] ${index === 0
-                        ? "text-[clamp(1.5rem,5.2vw,2.15rem)] sm:text-[clamp(1.6rem,2.65vw,2.7rem)]"
-                        : "text-[clamp(1.85rem,5.8vw,2.75rem)] sm:text-[clamp(1.9rem,3.25vw,3.25rem)]"}`}
-                    >
-                      {slide.title}{" "}
-                      <span className="block text-[#24549d]">{slide.highlight}</span>
-                    </motion.h1>
-                    <motion.p
-                      variants={textVariants}
-                      className="max-w-[40ch] font-[family-name:var(--font-inter)] text-[clamp(.94rem,1.25vw,1.125rem)] leading-relaxed text-[#3d4d67]"
-                    >
-                      {slide.description}
-                    </motion.p>
-                  </motion.div>
-                ))}
-              </motion.div>
-
-              <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2">
-                <a className={`${actionClass} group min-h-12 px-4 py-2 text-sm motion-safe:transition-colors sm:px-5`} href="#contact-now">
-                  Book a Free Appointment
-                  <ArrowRight className="shrink-0 motion-safe:transition-transform motion-safe:group-hover:translate-x-0.5" size={16} aria-hidden="true" />
-                </a>
-                <a className="inline-flex min-h-11 items-center gap-1.5 rounded-lg px-2 text-sm font-semibold text-[#186247] hover:bg-[#e3efe9]" href={whatsAppUrl}>
-                  <FaWhatsapp size={18} aria-hidden="true" />
-                  WhatsApp
-                </a>
-              </div>
-
-              <div className="mt-2.5 flex w-max items-center" role="group" aria-label="Slide controls">
-                {slides.map((slide, index) => (
-                  <button
-                    key={slide.title}
-                    type="button"
-                    className={slideControlClass + " after:h-2 after:w-2 after:rounded-full after:bg-[#798fb4] aria-pressed:after:w-6 aria-pressed:after:bg-[#1b347c] motion-safe:after:transition-[width,background-color]"}
-                    aria-label={`Show slide ${index + 1}: ${slide.label}`}
-                    aria-pressed={index === activeSlide}
-                    onClick={() => setActiveSlide(index)}
-                  />
-                ))}
-              </div>
-            </div>
           </section>
-
-          <div className="mx-auto w-full min-w-0 max-w-[560px] lg:max-w-none lg:py-8">
-            {appointmentForm}
-          </div>
         </div>
       </div>
 
       {bookingDetails}
+
+      <a
+        href={bookingPhoneHref}
+        aria-label="Call Sudha Fertility Centre"
+        className={actionClass + " fixed bottom-[calc(4rem+env(safe-area-inset-bottom))] right-[max(1rem,env(safe-area-inset-right))] z-40 size-12 shadow-[0_6px_20px_#12275f55] md:bottom-5 md:right-5 md:size-14"}
+      >
+        <Phone size={22} aria-hidden="true" />
+      </a>
     </div>
   );
 }

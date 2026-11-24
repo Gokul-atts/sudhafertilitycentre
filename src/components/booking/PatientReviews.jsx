@@ -4,10 +4,32 @@ import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Quote, Star } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
+import { coimbatoreReviews } from "@/utils/coimbatoreReviews";
 import { reviews } from "@/utils/homepageData";
 
-const reviewerNames = new Set(["Padma Naban", "Krish Kumar", "liji arumughan"]);
-const patientReviews = reviews.filter(({ name }) => reviewerNames.has(name));
+const homepageReviewerNames = new Set([
+  "Padma Naban",
+  "Krish Kumar",
+  "liji arumughan",
+  "Nandhi pandi",
+  "Kani",
+  "Mythili Murugasamy",
+  "S.Tamil Selvan",
+]);
+const coimbatoreReviewerNames = new Set([
+  "Sathya Jaisanker",
+  "Kalai Selvan",
+  "Anuvasu Anuvasu",
+  "Kabilan",
+  "Rahotman P",
+  "Suresh K",
+  "Dhana Dhana",
+  "Jothi Senthil",
+]);
+const patientReviews = [
+  ...reviews.filter(({ name }) => homepageReviewerNames.has(name)),
+  ...coimbatoreReviews.filter(({ name }) => coimbatoreReviewerNames.has(name)),
+];
 const ease = [0.22, 1, 0.36, 1];
 const arrowClass =
   "grid size-11 place-items-center rounded-full border border-[#e3ebfa] bg-white text-[#1b347c] hover:bg-[#eaf1ff] motion-safe:transition-colors";
@@ -147,7 +169,7 @@ export default function PatientReviews() {
         >
           {patientReviews.map(({ name, quote }, index) => {
             const active = index === slide.index;
-            const initials = name.trim().split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
+            const initials = name.trim().split(/\s+/).slice(0, 10).map((part) => part[0]).join("").toUpperCase();
 
             return (
               <motion.figure
